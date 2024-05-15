@@ -1,0 +1,52 @@
+{
+  "name": "web",
+  "private": true,
+  "sideEffects": false,
+  "type": "module",
+  "scripts": {
+    "build": "remix vite:build",
+    "cf-typegen": "wrangler types",
+    "deploy": "bun run build && wrangler pages deploy",
+    "dev": "remix vite:dev",
+    "format": "biome format --write  ./app",
+    "lint": "biome lint --apply ./app",
+    "preview": "bun run build && wrangler pages dev",
+    "start": "wrangler pages dev ./build/client",
+    "typecheck": "tsc"
+  },
+  "dependencies": {
+    "@neondatabase/serverless": "^0.9.3",
+    "@remix-run/cloudflare": "^2.8.1",
+    "@remix-run/cloudflare-pages": "^2.8.1",
+    "@remix-run/react": "^2.8.1",
+    "@uiw/react-textarea-code-editor": "^3.0.2",
+    "hono": "^4.3.6",
+    "isbot": "^4.1.0",
+    "lucide-react": "^0.378.0",
+    "miniflare": "^3.20240404.0",
+    "react": "^18.2.0",
+    "react-aria-components": "^1.2.0",
+    "react-dom": "^18.2.0",
+    "use-clipboard-copy": "^0.2.0"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^1.7.3",
+    "@cloudflare/workers-types": "^4.20240502.0",
+    "@instant-postgres/tsconfig": "workspace:^0.1.0",
+    "@remix-run/dev": "^2.8.1",
+    "@types/react": "^18.2.20",
+    "@types/react-dom": "^18.2.7",
+    "autoprefixer": "^10.4.19",
+    "drizzle-kit": "^0.21.1",
+    "node-fetch": "^3.3.2",
+    "postcss": "^8.4.38",
+    "tailwindcss": "^3.4.3",
+    "typescript": "^5.1.6",
+    "vite": "^5.1.0",
+    "vite-tsconfig-paths": "^4.2.1",
+    "wrangler": "^3.48.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

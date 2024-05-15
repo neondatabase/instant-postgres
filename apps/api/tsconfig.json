@@ -1,0 +1,9 @@
+{
+	"extends": "@instant-postgres/tsconfig/base.json",
+	"compilerOptions": {
+		"jsx": "react",
+		"types": ["@cloudflare/workers-types/2023-07-01"],
+		"allowSyntheticDefaultImports": true,
+		"skipLibCheck": true
+	}
+}

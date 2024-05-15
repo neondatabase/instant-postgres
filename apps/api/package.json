@@ -1,0 +1,29 @@
+{
+  "name": "api",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "cf-typegen": "wrangler types",
+    "dev": "run-p dev:*",
+    "dev:wrangler": "wrangler pages dev dist --live-reload",
+    "dev:esbuild": "esbuild --bundle src/index.ts --format=esm --watch --outfile=dist/_worker.js",
+    "build": "esbuild --bundle src/index.ts --format=esm --outfile=dist/_worker.js",
+    "deploy": "wrangler pages publish dist",
+    "format": "biome format --write  ./src",
+    "lint": "biome lint --apply ./src",
+    "start": "wrangler dev"
+  },
+  "dependencies": {
+    "@instant-postgres/db": "workspace:^0.1.0",
+    "@instant-postgres/neon": "workspace:^0.1.0",
+    "hono": "^4.3.6"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^1.7.3",
+    "@cloudflare/workers-types": "^4.20240502.0",
+    "@instant-postgres/tsconfig": "workspace:^0.1.0",
+    "npm-run-all": "^4.1.5",
+    "typescript": "^5.0.4",
+    "wrangler": "^3.0.0"
+  }
+}

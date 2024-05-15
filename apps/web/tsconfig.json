@@ -1,0 +1,25 @@
+{
+	"extends": "@instant-postgres/tsconfig/base.json",
+	"include": [
+		"**/*.ts",
+		"**/*.tsx",
+		"**/.server/**/*.ts",
+		"**/.server/**/*.tsx",
+		"**/.client/**/*.ts",
+		"**/.client/**/*.tsx",
+		"../api/src/index.ts"
+	],
+	"compilerOptions": {
+		"rootDir": "../../apps",
+		"types": [
+			"@remix-run/cloudflare",
+			"vite/client",
+			"@cloudflare/workers-types/2023-07-01"
+		],
+		"jsx": "react-jsx",
+		"baseUrl": ".",
+		"paths": {
+			"~/*": ["./app/*"]
+		}
+	}
+}

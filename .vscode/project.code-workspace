@@ -1,0 +1,28 @@
+{
+	"folders": [
+		{
+			"path": "..",
+			"name": "root"
+		},
+		{
+			"name": "web",
+			"path": "../apps/web/"
+		},
+		{
+			"name": "api",
+			"path": "../apps/api/"
+		},
+		{
+			"name": "db",
+			"path": "../packages/db/"
+		},
+		{
+			"name": "neon",
+			"path": "../packages/neon/"
+		},
+		{
+			"name": "tooling",
+			"path": "../tooling/"
+		}
+	]
+}
