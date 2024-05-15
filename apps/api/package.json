@@ -8,7 +8,7 @@
     "dev:wrangler": "wrangler pages dev dist --live-reload",
     "dev:esbuild": "esbuild --bundle src/index.ts --format=esm --watch --outfile=dist/_worker.js",
     "build": "esbuild --bundle src/index.ts --format=esm --outfile=dist/_worker.js",
-    "deploy": "wrangler pages publish dist",
+    "deploy": "wrangler pages deploy dist",
     "format": "biome format --write  ./src",
     "lint": "biome lint --apply ./src",
     "start": "wrangler dev"

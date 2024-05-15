@@ -3,7 +3,7 @@
   "description": "An app showcasing how you can provison Postgres instantly with Neon",
   "private": true,
   "engines": {
-    "node": ">=22.1.0"
+    "node": ">=21.7.2"
   },
   "packageManager": "pnpm@8.10.5",
   "scripts": {

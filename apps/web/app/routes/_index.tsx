@@ -8,27 +8,36 @@ import { useState } from "react";
 import { Check, CopyIcon, Database, Loader } from "lucide-react";
 import { SEO } from "~/lib/constants";
 import { regions } from "~/lib/neon/regions";
+import { hc } from "hono/client";
+import type { AppType } from "../../../api/src";
 
 export const meta: MetaFunction = () => SEO;
 
 export const clientAction = async () => {
 	try {
-		const res = await fetch(
-			"https://instant-postgres-api.devrel-570.workers.dev/api/new",
+		const client = hc<AppType>("https://instant-postgres-api.pages.dev/");
+
+		const res = await client.api.new.$post(
+			{},
 			{
-				method: "POST",
-				credentials: "include",
+				headers: {
+					credentials: "include",
+				},
 			},
 		);
 
 		const data = await res.json();
 
+		if (data.error) {
+			return json({ error: data.error.message }, { status: 500 });
+		}
+
 		return json(
 			{
-				hasCreatedProject: data.hasCreatedProject as boolean,
-				connectionUri: data.connectionUri as string,
-				timeToProvision: data.timeToProvision as string,
-				project: data.project,
+				hasCreatedProject: data.result.hasCreatedProject,
+				connectionUri: data.result.connectionUri,
+				timeToProvision: data.result.timeToProvision,
+				project: data.result.project,
 			},
 			{
 				headers: res.headers,
@@ -82,6 +91,11 @@ export default function Index() {
 							)}
 							{hasCreatedProject ? "Postgres Deployed" : "Deploy Postgres"}
 						</Button>
+						<div
+							className="cf-turnstile"
+							data-sitekey="0x4AAAAAAAaLhuOYDRwuDjk9"
+							data-callback="javascriptCallback"
+						/>
 					</Form>
 					<div className="relative flex w-full max-w-3xl flex-col sm:overflow-hidden space-y-3">
 						<div className="relative z-10 rounded-[14px] bg-white bg-opacity-[0.03] p-1.5 backdrop-blur-[4px] xl:rounded-xl md:p-1">
