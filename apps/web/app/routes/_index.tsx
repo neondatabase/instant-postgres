@@ -20,7 +20,7 @@ export const meta: MetaFunction = () => SEO;
 
 export const clientAction = async () => {
 	try {
-		const client = hc<AppType>("http://localhost:8787/");
+		const client = hc<AppType>("https://instant-postgres-api.pages.dev/");
 
 		const res = await client.api.new.$post(
 			{},
