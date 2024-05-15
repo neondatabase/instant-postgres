@@ -8,8 +8,8 @@
     "cf-typegen": "wrangler types",
     "deploy": "bun run build && wrangler pages deploy",
     "dev": "remix vite:dev",
-    "format": "biome format --write  ./app",
-    "lint": "biome lint --apply ./app",
+    "format": "bunx @biomejs/biome format ./app --write",
+    "lint": "bunx @biomejs/biome lint ./app --apply",
     "preview": "bun run build && wrangler pages dev",
     "start": "wrangler pages dev ./build/client",
     "typecheck": "tsc"
@@ -20,7 +20,6 @@
     "@remix-run/cloudflare-pages": "^2.8.1",
     "@remix-run/react": "^2.8.1",
     "@uiw/react-textarea-code-editor": "^3.0.2",
-    "hono": "^4.3.6",
     "isbot": "^4.1.0",
     "lucide-react": "^0.378.0",
     "miniflare": "^3.20240404.0",
@@ -32,8 +31,8 @@
   "devDependencies": {
     "@biomejs/biome": "^1.7.3",
     "@cloudflare/workers-types": "^4.20240502.0",
-    "@instant-postgres/tsconfig": "workspace:^0.1.0",
     "@remix-run/dev": "^2.8.1",
+    "@types/prismjs": "^1.26.4",
     "@types/react": "^18.2.20",
     "@types/react-dom": "^18.2.7",
     "autoprefixer": "^10.4.19",
