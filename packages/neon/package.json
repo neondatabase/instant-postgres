@@ -10,7 +10,7 @@
     "lint": "biome lint --apply .",
     "format": "biome format --write .",
     "typecheck": "tsc --noEmit",
-    "typegen": "pnpm dlx openapi-typescript https://neon.tech/api_spec/release/v2.json -o ./src/schema.d.ts"
+    "typegen": "pnpm dlx openapi-typescript https://neon.tech/api_spec/release/v2.json -o ./src/schema.ts"
   },
   "dependencies": {
     "openapi-fetch": "^0.9.5"
