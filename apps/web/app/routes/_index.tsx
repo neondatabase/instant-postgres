@@ -15,20 +15,26 @@ export const meta: MetaFunction = () => SEO;
 
 export const clientAction = async () => {
 	try {
-		const client = hc<AppType>(import.meta.env.VITE_API_URL);
-
-		const res = await client.api.new.$post(
-			{},
-			{
-				headers: {
-					credentials: "include",
-				},
+		const client = hc<AppType>(import.meta.env.VITE_API_URL, {
+			headers: {
+				"Content-Type": "application/json",
+				credentials: "include",
 			},
-		);
+		});
+
+		const res = await client.postgres.$post();
+
+		// const res = await fetch(`${API_URL}/api/new`, {
+		// 	method: "POST",
+		// 	headers: {
+		// 		"Content-Type": "application/json",
+		// 	},
+		// });
 
 		const data = await res.json();
 
 		if (data.error) {
+			console.log(data.error.message);
 			return json({ error: data.error.message }, { status: 500 });
 		}
 
@@ -112,9 +118,9 @@ export default function Index() {
 								<span
 									className="relative mt-1 h-1.5 w-1.5 rounded-full transition-[background-color,box-shadow] duration-300 xl:h-[5px] xl:w-[5px]  shadow-[0px_0px_9px_0px_#4BFFC3]"
 									aria-hidden="true"
-									style={{
-										backgroundColor: hasCreatedProject ? "#00E599" : "",
-									}}
+									// style={{
+									// 	backgroundColor: hasCreatedProject ? "#00E599" : "",
+									// }}
 								>
 									<span className="absolute inset-px h-1 w-1 rounded-full bg-[#D9FDF1] opacity-70 blur-[1px]" />
 								</span>

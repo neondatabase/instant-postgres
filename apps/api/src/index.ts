@@ -38,17 +38,15 @@ const app = new Hono<{ Bindings: Bindings }>();
 
 app.use("*", async (c, next) => {
 	const corsMiddleware = cors({
-		origin: c.env.APP_URL,
-		allowHeaders: ["Content-Type", "Authorization"],
-		allowMethods: ["POST", "GET", "OPTIONS"],
-		exposeHeaders: ["Content-Length"],
-		maxAge: 600,
+		origin: c.env.APP_URL.replace(/\/$/, ""),
+		allowHeaders: ["Origin", "Content-Type", "Authorization"],
+		allowMethods: ["GET", "OPTIONS", "POST", "PUT", "DELETE"],
 		credentials: true,
 	});
-	await corsMiddleware(c, next);
+	return await corsMiddleware(c, next);
 });
 
-const route = app.post("/api/new", async (c) => {
+const route = app.post("/postgres", async (c) => {
 	const projectData = await getSignedCookie(
 		c,
 		c.env.COOKIE_SECRET,
