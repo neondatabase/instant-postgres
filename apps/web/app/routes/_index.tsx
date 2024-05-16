@@ -25,7 +25,7 @@ export const clientAction = async () => {
 
 		// const res = await client.postgres.$post();
 
-		const res = await fetch(`${API_URL}/api/new`, {
+		const res = await fetch(`${API_URL}/postgres`, {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",
