@@ -9,6 +9,7 @@ type Bindings = {
 	DATABASE_URL: string;
 	NEON_API_KEY: string;
 	COOKIE_SECRET: string;
+	API_URL: string;
 };
 
 type SuccessResponse<ResultType> = {
@@ -35,17 +36,17 @@ type ProjectProvision = {
 
 const app = new Hono<{ Bindings: Bindings }>();
 
-app.use(
-	"*",
-	cors({
-		origin: "https://instant-postgres.pages.dev",
+app.use("*", async (c, next) => {
+	const corsMiddleware = cors({
+		origin: c.env.API_URL,
 		allowHeaders: ["Content-Type", "Authorization"],
 		allowMethods: ["POST", "GET", "OPTIONS"],
 		exposeHeaders: ["Content-Length"],
 		maxAge: 600,
 		credentials: true,
-	}),
-);
+	});
+	await corsMiddleware(c, next);
+});
 
 const route = app.post("/api/new", async (c) => {
 	const projectData = await getSignedCookie(

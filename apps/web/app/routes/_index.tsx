@@ -15,7 +15,7 @@ export const meta: MetaFunction = () => SEO;
 
 export const clientAction = async () => {
 	try {
-		const client = hc<AppType>("https://instant-postgres-api.pages.dev/");
+		const client = hc<AppType>(import.meta.env.VITE_API_URL);
 
 		const res = await client.api.new.$post(
 			{},
