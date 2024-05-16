@@ -5,14 +5,10 @@
   "engines": {
     "node": ">=21.7.2"
   },
-  "packageManager": "pnpm@8.10.5",
   "scripts": {
     "build": "turbo build",
     "clean": "git clean -xdf node_modules",
     "clean:workspaces": "turbo clean",
-    "db:push": "pnpm -F db push",
-    "db:generate": "",
-    "db:migrate": "",
     "dev": "turbo dev --parallel",
     "format": "turbo format",
     "lint": "turbo lint",
@@ -22,5 +18,11 @@
     "@biomejs/biome": "^1.5.3",
     "turbo": "^1.10.16",
     "typescript": "^5.2.2"
-  }
+  },
+  "packageManager": "npm@10.5.0",
+  "workspaces": [
+    "apps/*",
+    "packages/*",
+    "tooling/*"
+  ]
 }

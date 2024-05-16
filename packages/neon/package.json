@@ -10,14 +10,14 @@
     "lint": "biome lint --apply .",
     "format": "biome format --write .",
     "typecheck": "tsc --noEmit",
-    "typegen": "pnpm dlx openapi-typescript https://neon.tech/api_spec/release/v2.json -o ./src/schema.ts"
+    "typegen": "npx openapi-typescript https://neon.tech/api_spec/release/v2.json -o ./src/schema.ts"
   },
   "dependencies": {
     "openapi-fetch": "^0.9.5"
   },
   "devDependencies": {
     "@biomejs/biome": "^1.5.3",
-    "@instant-postgres/tsconfig": "workspace:^0.1.0",
+    "@instant-postgres/tsconfig": "*",
     "typescript": "^5.2.2"
   }
 }

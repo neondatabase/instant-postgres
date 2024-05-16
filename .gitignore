@@ -14,10 +14,7 @@ node_modules
 logs
 _.log
 npm-debug.log_
-yarn-debug.log*
-yarn-error.log*
-lerna-debug.log*
-.pnpm-debug.log*
+
 
 # Diagnostic reports (https://nodejs.org/api/report.html)
 
@@ -189,11 +186,8 @@ dist
 .wrangler
 .dev.vars
 
-# Change them to your taste:
 package-lock.json
-yarn.lock
-pnpm-lock.yaml
-bun.lockb
+
 
 build
 

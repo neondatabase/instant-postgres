@@ -6,11 +6,11 @@
   "scripts": {
     "build": "remix vite:build",
     "cf-typegen": "wrangler types",
-    "deploy": "pnpm run build && wrangler pages deploy ./build/client",
+    "deploy": "npm run build && wrangler pages deploy ./build/client",
     "dev": "remix vite:dev",
     "format": "biome format ./app --write",
     "lint": "biome lint ./app --apply",
-    "preview": "pnpm run build && wrangler pages dev",
+    "preview": "npm run build && wrangler pages dev",
     "start": "wrangler pages dev ./build/client",
     "typecheck": "tsc"
   },
@@ -32,8 +32,8 @@
   "devDependencies": {
     "@biomejs/biome": "^1.7.3",
     "@cloudflare/workers-types": "^4.20240502.0",
-    "@instant-postgres/neon": "workspace:^",
-    "@instant-postgres/tsconfig": "workspace:^",
+    "@instant-postgres/neon": "*",
+    "@instant-postgres/tsconfig": "*",
     "@remix-run/dev": "^2.8.1",
     "@types/prismjs": "^1.26.4",
     "@types/react": "^18.2.20",
