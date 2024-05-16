@@ -16,22 +16,16 @@ export const meta: MetaFunction = () => SEO;
 export const clientAction = async () => {
 	const API_URL = import.meta.env.VITE_API_URL;
 	try {
-		// const client = hc<AppType>(import.meta.env.VITE_API_URL, {
-		// 	headers: {
-		// 		"Content-Type": "application/json",
-		// 		credentials: "include",
-		// 	},
-		// });
-
-		// const res = await client.postgres.$post();
-
-		const res = await fetch(`${API_URL}/postgres`, {
-			method: "POST",
+		const client = hc<AppType>(API_URL, {
 			headers: {
 				"Content-Type": "application/json",
+			},
+			init: {
 				credentials: "include",
 			},
 		});
+
+		const res = await client.postgres.$post();
 
 		const data = await res.json();
 
