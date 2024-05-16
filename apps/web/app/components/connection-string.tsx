@@ -17,7 +17,7 @@ export const ConnectionString = ({ hasCreatedProject, connectionUri }) => {
 	});
 
 	return (
-		<div className="relative flex w-full flex-col sm:overflow-hidden space-y-3">
+		<div className="relative flex w-full max-w-3xl ml-auto flex-col sm:overflow-hidden space-y-3">
 			<div className="relative z-10 rounded-[14px] bg-white bg-opacity-[0.03] p-1 backdrop-blur-[4px] xl:rounded-xl ">
 				<div
 					className="absolute inset-0 z-10 rounded-[inherit] border border-white/[0.04]"
@@ -42,13 +42,13 @@ export const ConnectionString = ({ hasCreatedProject, connectionUri }) => {
 					{hasCreatedProject ? (
 						<span
 							ref={ref}
-							className="text-white w-full focus:outline-none bg-transparent font-mono text-xs h-3.5 line-clamp-1"
+							className="text-white w-full focus:outline-none bg-transparent font-mono text-xs h-3.5 overflow-clip"
 						>
 							{connectionUri}
 						</span>
 					) : (
-						<span className="text-[#AFB1B6]/50 w-full focus:outline-none bg-transparent font-mono text-xs h-3.5 line-clamp-1">
-							postgresql://neondb_owner:*******@ep-solitary-limit-a5z4rvbx.us-east-2.aws.neon.tech/neondb
+						<span className="text-[#AFB1B6]/50 w-full focus:outline-none bg-transparent font-mono text-xs h-3.5 overflow-clip">
+							postgresql://neondb_owner:v9wpX3xjEnKT@ep-misty-sound-a5169vmg.us-east-2.aws.neon.tech/neondb?sslmode=require{" "}
 						</span>
 					)}
 

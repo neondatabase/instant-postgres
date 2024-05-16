@@ -25,12 +25,15 @@ export const CodeEditor = ({ hasCreatedProject }: CodeEditorProps) => {
 				aria-hidden="true"
 			/>
 			<div className="pointer-events-none absolute -left-40 -top-44 z-0 h-[482px] w-[470px] rounded-[100%] bg-[linear-gradient(180deg,rgba(25,27,52,0)_0%,#16182D_88.36%)] opacity-65 blur-3xl xl:-left-36 xl:-top-40 xl:h-[427px] xl:w-[417]" />
-			<div className="hidden pointer-events-none md:absolute -right-32 -top-28 z-0 h-[316px] w-[316px] rounded-[100%] bg-[#16182D] opacity-30 blur-3xl" />
-			<div className="hidden pointer-events-none md:absolute -bottom-36 -right-36 z-0 h-[377px] w-[377px] rounded-[100%] bg-[#16182D] opacity-40 blur-3xl" />
+			<div className="hidden md:inline pointer-events-none absolute -right-32 -top-28 z-0 h-[316px] w-[316px] rounded-[100%] bg-[#16182D] opacity-30 blur-3xl" />
+			<div className="hidden md:inline pointer-events-none absolute -bottom-36 -right-36 z-0 h-[377px] w-[377px] rounded-[100%] bg-[#16182D] opacity-40 blur-3xl" />
 			<div className="relative z-20 rounded-[10px] bg-black-new xl:rounded-lg">
 				<div className="rounded-[10px] bg-black-new">
 					<div className="border-b border-white/[0.03]" />
 					<div className={"relative h-[443px] lg:h-[403px]"}>
+						{!hasCreatedProject && (
+							<div className="bg-black w-full h-full absolute inset-0 z-10 pointer-events-none opacity-60" />
+						)}
 						<Editor
 							value={code}
 							language="sql"

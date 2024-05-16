@@ -6,8 +6,6 @@
   - Og descriptions
   - favicon
 - UI
-  - Add a loader
-  - Confetti
   - Add a toast for running queries
   - Show errors if any from action
   - Code editor:
@@ -19,6 +17,8 @@
   - rate-limiting
   - automatically delete the database after 5 minutes
   - Add Turnstile 
+- CI/CD
+  - Preview Deployments with Neon
 - Infra:
   - Deploy to cloudflare DevRel account
   - Create a dedicated Neon account
