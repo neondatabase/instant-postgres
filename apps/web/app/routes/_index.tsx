@@ -59,23 +59,28 @@ export default function Index() {
 			<div className="max-w-screen-lg mx-auto">
 				<Intro />
 				<div className="my-16" />
-				<div className="h-4">
-					{hasCreatedProject && (
-						<ProjectInfo project={project} timeToProvision={timeToProvision} />
-					)}
-				</div>
-				<div className="my-2" />
-				<div className="flex flex-col md:flex-row md:items-center gap-3 justify-between  w-full">
+
+				<div className="flex flex-col md:flex-row md:items-center gap-8 justify-between w-full">
 					<DeployButton
 						hasCreatedProject={hasCreatedProject}
 						isLoading={isLoading}
 					/>
-					<ConnectionString
-						hasCreatedProject={hasCreatedProject}
-						connectionUri={connectionUri}
-					/>
+					<div className="space-y-3 flex-grow">
+						<div className="h-4">
+							{hasCreatedProject && (
+								<ProjectInfo
+									project={project}
+									timeToProvision={timeToProvision}
+								/>
+							)}
+						</div>
+						<ConnectionString
+							hasCreatedProject={hasCreatedProject}
+							connectionUri={connectionUri}
+						/>
+						<div className="h-4">{hasCreatedProject && <Message />}</div>
+					</div>
 				</div>
-				<div className="h-4">{hasCreatedProject && <Message />}</div>
 				<div className="mt-16" />
 				<CodeEditor hasCreatedProject={hasCreatedProject} />
 			</div>

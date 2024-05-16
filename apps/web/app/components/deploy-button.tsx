@@ -27,7 +27,7 @@ export const DeployButton = ({
 				) : (
 					<Database className="w-4 h-4 mr-2" strokeWidth={3} />
 				)}
-				{hasCreatedProject ? "Postgres Deployed" : "Deploy Postgres"}
+				Deploy Postgres{" "}
 			</Button>
 			<div
 				className="cf-turnstile"

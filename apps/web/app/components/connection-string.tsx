@@ -17,7 +17,7 @@ export const ConnectionString = ({ hasCreatedProject, connectionUri }) => {
 	});
 
 	return (
-		<div className="relative flex w-full max-w-3xl flex-col sm:overflow-hidden space-y-3">
+		<div className="relative flex w-full flex-col sm:overflow-hidden space-y-3">
 			<div className="relative z-10 rounded-[14px] bg-white bg-opacity-[0.03] p-1 backdrop-blur-[4px] xl:rounded-xl ">
 				<div
 					className="absolute inset-0 z-10 rounded-[inherit] border border-white/[0.04]"
@@ -27,7 +27,7 @@ export const ConnectionString = ({ hasCreatedProject, connectionUri }) => {
 					className="absolute inset-[5px] z-10 rounded-[10px] border border-white/[0.04] mix-blend-overlay"
 					aria-hidden="true"
 				/>
-				<div className="z-20 flex h-12 gap-x-3.5 rounded-[10px] border-opacity-[0.05] bg-[#0c0d0d] pl-[18px] pt-2.5 tracking-extra-tight  xl:rounded-lg xl:pl-4 lg:gap-x-3 md:h-9 md:gap-x-2.5 md:pl-[14px]">
+				<div className="z-20 flex h-9 gap-x-3.5 rounded-[10px] border-opacity-[0.05] bg-[#0c0d0d] pl-[18px] pt-2.5 tracking-extra-tight  xl:rounded-lg xl:pl-4 lg:gap-x-3 md:gap-x-2.5 md:pl-[14px]">
 					<span className="absolute left-0 top-1/2 h-[450px] w-px -translate-y-1/2" />
 					<span
 						className={cn(

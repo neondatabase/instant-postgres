@@ -5,7 +5,7 @@ export const Intro = () => {
 		<div>
 			<Heading
 				level={1}
-				className="text-[56px] font-semibold leading-[0.9] tracking-extra-tight text-white xl:text-[56px] lg:text-[44px] text-sm:text-[32px]"
+				className="text-[32px] font-semibold leading-[0.9] tracking-extra-tight text-white xl:text-[56px] lg:text-[44px]"
 			>
 				Postgres on Neon
 			</Heading>

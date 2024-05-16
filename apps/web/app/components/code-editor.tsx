@@ -1,7 +1,6 @@
 import { useState } from "react";
 import Editor from "@uiw/react-textarea-code-editor";
 import { Button } from "./ui/button";
-
 import { Play, LoaderCircle } from "lucide-react";
 
 type CodeEditorProps = {
@@ -36,7 +35,7 @@ export const CodeEditor = ({ hasCreatedProject }: CodeEditorProps) => {
 							value={code}
 							language="sql"
 							disabled={!hasCreatedProject}
-							className="h-full font-mono leading-loose"
+							className={"h-full font-mono leading-loose"}
 							onChange={(evn) => setCode(evn.target.value)}
 							padding={20}
 							data-color-mode="dark"
@@ -45,7 +44,7 @@ export const CodeEditor = ({ hasCreatedProject }: CodeEditorProps) => {
 								fontFamily:
 									"ui-monospace,SFMono-Regular,SF Mono,Consolas,Liberation Mono,Menlo,monospace",
 								fontSize: "14px",
-								opacity: !hasCreatedProject ? 0.5 : 1,
+								opacity: hasCreatedProject ? 1 : 0.5,
 							}}
 						/>
 
