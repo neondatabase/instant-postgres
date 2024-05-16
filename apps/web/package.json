@@ -15,11 +15,13 @@
     "typecheck": "tsc"
   },
   "dependencies": {
+    "@instant-postgres/neon": "^0.1.0",
     "@neondatabase/serverless": "^0.9.3",
     "@remix-run/cloudflare": "^2.8.1",
     "@remix-run/cloudflare-pages": "^2.8.1",
     "@remix-run/react": "^2.8.1",
     "@uiw/react-textarea-code-editor": "^3.0.2",
+    "clsx": "^2.1.1",
     "hono": "^4.3.6",
     "isbot": "^4.1.0",
     "lucide-react": "^0.378.0",
@@ -27,12 +29,13 @@
     "react": "^18.2.0",
     "react-aria-components": "^1.2.0",
     "react-dom": "^18.2.0",
-    "use-clipboard-copy": "^0.2.0"
+    "tailwind-merge": "^2.3.0",
+    "use-clipboard-copy": "^0.2.0",
+    "use-scramble": "^2.2.15"
   },
   "devDependencies": {
     "@biomejs/biome": "^1.7.3",
     "@cloudflare/workers-types": "^4.20240502.0",
-    "@instant-postgres/neon": "*",
     "@instant-postgres/tsconfig": "*",
     "@remix-run/dev": "^2.8.1",
     "@types/prismjs": "^1.26.4",
@@ -43,6 +46,8 @@
     "node-fetch": "^3.3.2",
     "postcss": "^8.4.38",
     "tailwindcss": "^3.4.3",
+    "tailwindcss-animate": "^1.0.7",
+    "tailwindcss-react-aria-components": "^1.1.2",
     "typescript": "^5.1.6",
     "vite": "^5.1.0",
     "vite-tsconfig-paths": "^4.2.1",

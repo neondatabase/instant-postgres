@@ -7,6 +7,7 @@
   - favicon
 - UI
   - Add a loader
+  - Confetti
   - Add a toast for running queries
   - Show errors if any from action
   - Code editor:

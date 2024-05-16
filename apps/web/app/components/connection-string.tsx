@@ -1,0 +1,83 @@
+import { Check, Copy } from "lucide-react";
+import { useClipboard } from "use-clipboard-copy";
+import { Button } from "./ui/button";
+import { useScramble } from "use-scramble";
+import { cn } from "~/lib/cn";
+import { maskPassword } from "~/lib/mask-password";
+
+export const ConnectionString = ({ hasCreatedProject, connectionUri }) => {
+	const clipboard = useClipboard({
+		copiedTimeout: 600,
+	});
+
+	const { ref } = useScramble({
+		text: connectionUri && maskPassword(connectionUri),
+		step: 2,
+		speed: 2,
+	});
+
+	return (
+		<div className="relative flex w-full max-w-3xl flex-col sm:overflow-hidden space-y-3">
+			<div className="relative z-10 rounded-[14px] bg-white bg-opacity-[0.03] p-1 backdrop-blur-[4px] xl:rounded-xl ">
+				<div
+					className="absolute inset-0 z-10 rounded-[inherit] border border-white/[0.04]"
+					aria-hidden="true"
+				/>
+				<div
+					className="absolute inset-[5px] z-10 rounded-[10px] border border-white/[0.04] mix-blend-overlay"
+					aria-hidden="true"
+				/>
+				<div className="z-20 flex h-12 gap-x-3.5 rounded-[10px] border-opacity-[0.05] bg-[#0c0d0d] pl-[18px] pt-2.5 tracking-extra-tight  xl:rounded-lg xl:pl-4 lg:gap-x-3 md:h-9 md:gap-x-2.5 md:pl-[14px]">
+					<span className="absolute left-0 top-1/2 h-[450px] w-px -translate-y-1/2" />
+					<span
+						className={cn(
+							"relative mt-1.5 h-1.5 w-1.5 rounded-full transition-[background-color,box-shadow] duration-300 xl:h-[5px] xl:w-[5px]  shadow-[0px_0px_9px_0px_#4BFFC3]",
+							hasCreatedProject && "bg-[#00E599]",
+						)}
+						aria-hidden="true"
+					>
+						<span className="absolute inset-px h-1 w-1 rounded-full bg-[#D9FDF1] opacity-70 blur-[1px]" />
+					</span>
+
+					{hasCreatedProject ? (
+						<span
+							ref={ref}
+							className="text-white w-full focus:outline-none bg-transparent font-mono text-xs h-3.5 line-clamp-1"
+						>
+							{connectionUri}
+						</span>
+					) : (
+						<span className="text-[#AFB1B6]/50 w-full focus:outline-none bg-transparent font-mono text-xs h-3.5 line-clamp-1">
+							postgresql://neondb_owner:*******@ep-solitary-limit-a5z4rvbx.us-east-2.aws.neon.tech/neondb
+						</span>
+					)}
+
+					<div>
+						{hasCreatedProject && (
+							<div>
+								<Button
+									variant="ghost"
+									className="absolute right-1 top-1 bg-[#0c0d0d] z-30"
+									size="icon"
+									onPress={clipboard.copy}
+								>
+									{clipboard.copied ? (
+										<Check className="w-4 h-4" />
+									) : (
+										<Copy className="w-4 h-4" />
+									)}
+								</Button>
+								<input
+									type="hidden"
+									ref={clipboard.target}
+									value={connectionUri}
+									readOnly
+								/>
+							</div>
+						)}
+					</div>
+				</div>
+			</div>
+		</div>
+	);
+};
