@@ -9,7 +9,7 @@ type Bindings = {
 	DATABASE_URL: string;
 	NEON_API_KEY: string;
 	COOKIE_SECRET: string;
-	API_URL: string;
+	APP_URL: string;
 };
 
 type SuccessResponse<ResultType> = {
@@ -38,7 +38,7 @@ const app = new Hono<{ Bindings: Bindings }>();
 
 app.use("*", async (c, next) => {
 	const corsMiddleware = cors({
-		origin: c.env.API_URL,
+		origin: c.env.APP_URL,
 		allowHeaders: ["Content-Type", "Authorization"],
 		allowMethods: ["POST", "GET", "OPTIONS"],
 		exposeHeaders: ["Content-Length"],
