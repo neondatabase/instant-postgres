@@ -1,3 +1,5 @@
+import { Pool } from "@neondatabase/serverless";
+
 type queryOptions = {
 	connectionUri: string;
 	query: string;
