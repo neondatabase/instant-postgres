@@ -20,6 +20,7 @@
     "@remix-run/cloudflare": "^2.8.1",
     "@remix-run/cloudflare-pages": "^2.8.1",
     "@remix-run/react": "^2.8.1",
+    "@tanstack/react-table": "^8.17.3",
     "@uiw/react-textarea-code-editor": "^3.0.2",
     "clsx": "^2.1.1",
     "hono": "^4.3.6",
@@ -29,6 +30,7 @@
     "react": "^18.2.0",
     "react-aria-components": "^1.2.0",
     "react-dom": "^18.2.0",
+    "react-resizable-panels": "^2.0.19",
     "tailwind-merge": "^2.3.0",
     "use-clipboard-copy": "^0.2.0",
     "use-scramble": "^2.2.15"

@@ -6,7 +6,7 @@ import { hc } from "hono/client";
 import type { AppType } from "../../../api/src";
 import { ConnectionString } from "~/components/connection-string";
 import { DeployButton } from "~/components/deploy-button";
-import { CodeEditor } from "~/components/code-editor";
+import { SqlEditor } from "~/components/sql-editor";
 import { Message } from "~/components/message";
 import { Intro } from "~/components/intro";
 import { ProjectInfo } from "~/components/project-info";
@@ -82,7 +82,10 @@ export default function Index() {
 					</div>
 				</div>
 				<div className="mt-16" />
-				<CodeEditor hasCreatedProject={hasCreatedProject} />
+				<SqlEditor
+					hasCreatedProject={hasCreatedProject}
+					connectionUri={connectionUri}
+				/>
 			</div>
 		</div>
 	);
