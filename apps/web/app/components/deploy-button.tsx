@@ -31,7 +31,7 @@ export const DeployButton = ({
 			</Button>
 			<div
 				className="cf-turnstile"
-				data-sitekey="0x4AAAAAAAaLhuOYDRwuDjk9"
+				data-sitekey={import.meta.env.VITE_CLOUDFLARE_TURNSTILE_SITE_KEY}
 				data-callback="javascriptCallback"
 			/>
 		</Form>

@@ -10,6 +10,9 @@ type Bindings = {
 	NEON_API_KEY: string;
 	COOKIE_SECRET: string;
 	APP_URL: string;
+	CLOUDFLARE_TURNSTILE_SECRET_KEY: string;
+	UPSTASH_REDIS_REST_URL: string;
+	UPSTASH_REDIS_REST_TOKEN: string;
 };
 
 type SuccessResponse<ResultType> = {
@@ -47,6 +50,46 @@ app.use("*", async (c, next) => {
 });
 
 const route = app.post("/postgres", async (c) => {
+	const body = await c.req.raw.formData();
+
+	const token = body.get("cf-turnstile-response");
+	const ip = c.req.raw.headers.get("CF-Connecting-IP");
+
+	console.log({
+		token,
+		ip,
+	});
+
+	const formData = new FormData();
+	formData.append("secret", c.env.CLOUDFLARE_TURNSTILE_SECRET_KEY);
+	formData.append("response", token);
+	formData.append("remoteip", ip);
+
+	const result = await fetch(
+		"https://challenges.cloudflare.com/turnstile/v0/siteverify",
+		{
+			body: formData,
+			method: "POST",
+		},
+	);
+
+	const outcome = await result.json();
+
+	if (!outcome.success) {
+		console.log("Captcha failed", outcome);
+		return c.json<ErrorResponse, 400>(
+			{
+				result: null,
+				success: false,
+				error: {
+					message: "Captcha failed",
+					code: "400",
+				},
+			},
+			400,
+		);
+	}
+
 	const projectData = await getSignedCookie(
 		c,
 		c.env.COOKIE_SECRET,
