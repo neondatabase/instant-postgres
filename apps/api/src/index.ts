@@ -53,7 +53,7 @@ const route = app.post("/postgres", async (c) => {
 	const body = await c.req.parseBody();
 
 	const token = body["cf-turnstile-response"];
-	const ip = c.req.raw.headers.get("CF-Connecting-IP");
+	const ip = c.req.raw.headers.get("cf-connecting-ip");
 
 	console.log({
 		token,

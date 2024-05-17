@@ -29,11 +29,7 @@ export const DeployButton = ({
 				)}
 				Deploy Postgres{" "}
 			</Button>
-			<div
-				className="cf-turnstile"
-				data-sitekey={import.meta.env.VITE_CLOUDFLARE_TURNSTILE_SITE_KEY}
-				data-callback="javascriptCallback"
-			/>
+			<div className="cf-turnstile" data-sitekey="0x4AAAAAAAaa3POUTjMfGjWU" />
 		</Form>
 	);
 };

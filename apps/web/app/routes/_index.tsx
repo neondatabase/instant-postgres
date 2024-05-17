@@ -1,6 +1,10 @@
 import type { MetaFunction } from "@remix-run/cloudflare";
 import { json } from "@remix-run/cloudflare";
-import { useActionData, useNavigation } from "@remix-run/react";
+import {
+	type ClientActionFunctionArgs,
+	useActionData,
+	useNavigation,
+} from "@remix-run/react";
 import { SEO } from "~/lib/constants";
 import { hc } from "hono/client";
 import type { AppType } from "../../../api/src";
@@ -14,7 +18,15 @@ import { minDelay } from "~/lib/min-delay";
 
 export const meta: MetaFunction = () => SEO;
 
-export const clientAction = async () => {
+export const clientAction = async ({ request }: ClientActionFunctionArgs) => {
+	const body = await request.formData();
+	const token = body.get("cf-turnstile-response");
+	const ip = request.headers.get("cf-connecting-ip");
+
+	console.log({
+		token,
+		ip,
+	});
 	const API_URL = import.meta.env.VITE_API_URL;
 	try {
 		const client = hc<AppType>(API_URL, {
@@ -23,6 +35,7 @@ export const clientAction = async () => {
 			},
 			init: {
 				credentials: "include",
+				body: request.body,
 			},
 		});
 
