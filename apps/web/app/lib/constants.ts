@@ -1,5 +1,5 @@
 export const SEO = [
-	{ title: "Instant Postgres" },
+	{ title: "Neon | Instant Postgres" },
 	{
 		name: "description",
 		content: "Provision a Postgres database on Neon in seconds.",
