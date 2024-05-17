@@ -18,15 +18,7 @@ import { minDelay } from "~/lib/min-delay";
 
 export const meta: MetaFunction = () => SEO;
 
-export const clientAction = async ({ request }: ClientActionFunctionArgs) => {
-	const body = await request.formData();
-	const token = body.get("cf-turnstile-response");
-	const ip = request.headers.get("cf-connecting-ip");
-
-	console.log({
-		token,
-		ip,
-	});
+export const clientAction = async () => {
 	const API_URL = import.meta.env.VITE_API_URL;
 	try {
 		const client = hc<AppType>(API_URL, {
@@ -35,7 +27,6 @@ export const clientAction = async ({ request }: ClientActionFunctionArgs) => {
 			},
 			init: {
 				credentials: "include",
-				body: request.body,
 			},
 		});
 

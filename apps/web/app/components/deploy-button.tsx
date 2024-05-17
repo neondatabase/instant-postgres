@@ -29,7 +29,6 @@ export const DeployButton = ({
 				)}
 				Deploy Postgres{" "}
 			</Button>
-			<div className="cf-turnstile" data-sitekey="0x4AAAAAAAaa3POUTjMfGjWU" />
 		</Form>
 	);
 };
