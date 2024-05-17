@@ -13,6 +13,7 @@
     "typegen": "npx openapi-typescript https://neon.tech/api_spec/release/v2.json -o ./src/schema.ts"
   },
   "dependencies": {
+    "@neondatabase/serverless": "^0.9.3",
     "openapi-fetch": "^0.9.5"
   },
   "devDependencies": {
