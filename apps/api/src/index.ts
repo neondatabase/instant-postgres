@@ -4,6 +4,10 @@ import { cors } from "hono/cors";
 import { db } from "@instant-postgres/db";
 import { projects } from "@instant-postgres/db/schema";
 import { neon, type schema } from "@instant-postgres/neon";
+import {
+	findClosestRegion,
+	type regions,
+} from "@instant-postgres/neon/regions";
 
 type Bindings = {
 	DATABASE_URL: string;
@@ -73,9 +77,16 @@ const route = app.post("/postgres", async (c) => {
 
 	const start = Date.now();
 
-	const { data, error, response } = await neonApiClient.POST("/projects", {
+	const ipLongitude = c.req.raw.headers.get("cf-iplongitude");
+	const ipLatitude = c.req.raw.headers.get("cf-iplatitude");
+
+	const { data, error } = await neonApiClient.POST("/projects", {
 		body: {
 			project: {
+				region_id: findClosestRegion({
+					lat: Number(ipLatitude),
+					lon: Number(ipLongitude),
+				}) as keyof typeof regions,
 				pg_version: 16,
 				// @ts-ignore
 				default_endpoint_settings: {
