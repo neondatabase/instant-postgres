@@ -64,12 +64,12 @@ export default function Index() {
 				<Intro />
 				<div className="my-16" />
 
-				<div className="flex flex-col md:flex-row md:items-center gap-8 justify-between w-full">
+				<div className="flex flex-col items-start gap-10 w-full">
 					<DeployButton
 						hasCreatedProject={hasCreatedProject}
 						isLoading={isLoading}
 					/>
-					<div className="space-y-3 flex-grow">
+					<div className="space-y-3 w-full">
 						<div className="h-4">
 							{hasCreatedProject && (
 								<ProjectInfo
@@ -85,7 +85,7 @@ export default function Index() {
 						<div className="h-4">{hasCreatedProject && <Message />}</div>
 					</div>
 				</div>
-				<div className="mt-16" />
+				<div className="mt-10" />
 				<SqlEditor
 					hasCreatedProject={hasCreatedProject}
 					connectionUri={connectionUri}

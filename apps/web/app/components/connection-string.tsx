@@ -12,12 +12,19 @@ export const ConnectionString = ({ hasCreatedProject, connectionUri }) => {
 
 	const { ref } = useScramble({
 		text: connectionUri && maskPassword(connectionUri),
-		step: 2,
-		speed: 2,
+		range: [65, 99],
+		speed: 1,
+		tick: 1,
+		step: 5,
+		scramble: 5,
+		seed: 2,
+		chance: 1,
+		overdrive: false,
+		overflow: false,
 	});
 
 	return (
-		<div className="relative flex w-full max-w-3xl ml-auto flex-col sm:overflow-hidden space-y-3">
+		<div className="relative flex w-full max-w-4xl flex-col sm:overflow-hidden space-y-3">
 			<div className="relative z-10 rounded-[14px] bg-white bg-opacity-[0.03] p-1 backdrop-blur-[4px] xl:rounded-xl ">
 				<div
 					className="absolute inset-0 z-10 rounded-[inherit] border border-white/[0.04]"
