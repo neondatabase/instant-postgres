@@ -90,7 +90,9 @@ const route = app.post(
 					result: null,
 					success: false,
 					error: {
-						message: `Failed to validate captcha token: ${outcome.error}`,
+						message: `Failed to validate captcha token: ${outcome[
+							"error-codes"
+						].join()}`,
 						code: "400",
 					},
 				},
