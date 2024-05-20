@@ -72,6 +72,7 @@ const route = app.post(
 		formData.append("secret", c.env.CLOUDFLARE_TURNSTILE_SECRET_KEY);
 		formData.append("response", token);
 		formData.append("remoteip", ip);
+		console.log(formData);
 
 		const result = await fetch(
 			"https://challenges.cloudflare.com/turnstile/v0/siteverify",
@@ -89,7 +90,7 @@ const route = app.post(
 					result: null,
 					success: false,
 					error: {
-						message: "Failed to validate captcha token",
+						message: `Failed to validate captcha token: ${outcome.error}`,
 						code: "400",
 					},
 				},
