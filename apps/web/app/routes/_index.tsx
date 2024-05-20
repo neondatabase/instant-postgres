@@ -1,7 +1,7 @@
 import type { MetaFunction } from "@remix-run/cloudflare";
 import { json } from "@remix-run/cloudflare";
 import {
-	ClientActionFunctionArgs,
+	type ClientActionFunctionArgs,
 	useActionData,
 	useNavigation,
 } from "@remix-run/react";
