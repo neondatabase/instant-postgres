@@ -1,6 +1,7 @@
 import { Form } from "@remix-run/react";
 import { Button } from "./ui/button";
 import { Check, Database, LoaderCircle } from "lucide-react";
+import { TurnstileWidget } from "./turnstile-widget";
 
 type DeployButtonProps = {
 	isLoading: boolean;
@@ -12,8 +13,13 @@ export const DeployButton = ({
 	hasCreatedProject,
 }: DeployButtonProps) => {
 	return (
-		<Form method="POST">
+		<Form
+			method="POST"
+			className="flex flex-col md:flex-row gap-3 md:items-center"
+		>
 			<Button
+				name="action"
+				value="deploy"
 				size="lg"
 				variant="primary"
 				isDisabled={isLoading || hasCreatedProject}
@@ -29,6 +35,7 @@ export const DeployButton = ({
 				)}
 				Deploy Postgres{" "}
 			</Button>
+			<TurnstileWidget />
 		</Form>
 	);
 };

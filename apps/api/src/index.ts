@@ -8,6 +8,8 @@ import {
 	findClosestRegion,
 	type regions,
 } from "@instant-postgres/neon/regions";
+import { z } from "zod";
+import { zValidator } from "@hono/zod-validator";
 
 type Bindings = {
 	DATABASE_URL: string;
@@ -53,116 +55,159 @@ app.use("*", async (c, next) => {
 	return await corsMiddleware(c, next);
 });
 
-const route = app.post("/postgres", async (c) => {
-	const projectData = await getSignedCookie(
-		c,
-		c.env.COOKIE_SECRET,
-		"neon-project",
-	);
+const route = app.post(
+	"/postgres",
+	zValidator(
+		"json",
+		z.object({
+			cfTurnstileResponse: z.string(),
+		}),
+	),
+	async (c) => {
+		const body = await c.req.json();
+		console.log(body);
+		const token = body["cf-turnstile-response"];
+		const ip = c.req.raw.headers.get("CF-Connecting-IP") as string;
 
-	if (projectData) {
-		const parsedProjectData = JSON.parse(projectData) as ProjectProvision;
+		const formData = new FormData();
+		formData.append("secret", c.env.CLOUDFLARE_TURNSTILE_SECRET_KEY);
+		formData.append("response", token);
+		formData.append("remoteip", ip);
 
-		return c.json<SuccessResponse<ProjectProvision>, 200>(
+		const result = await fetch(
+			"https://challenges.cloudflare.com/turnstile/v0/siteverify",
 			{
-				result: parsedProjectData,
+				body: formData,
+				method: "POST",
+			},
+		);
+
+		const outcome = await result.json();
+
+		if (!outcome.success) {
+			return c.json<ErrorResponse, 400>(
+				{
+					result: null,
+					success: false,
+					error: {
+						message: "Failed to validate captcha token",
+						code: "400",
+					},
+				},
+				400,
+			);
+		}
+
+		const projectData = await getSignedCookie(
+			c,
+			c.env.COOKIE_SECRET,
+			"neon-project",
+		);
+
+		if (projectData) {
+			const parsedProjectData = JSON.parse(projectData) as ProjectProvision;
+
+			return c.json<SuccessResponse<ProjectProvision>, 200>(
+				{
+					result: parsedProjectData,
+					success: true,
+					error: null,
+				},
+				200,
+			);
+		}
+
+		const neonApiClient = neon(c.env.NEON_API_KEY);
+
+		const start = Date.now();
+
+		const ipLongitude = c.req.raw.headers.get("cf-iplongitude");
+		const ipLatitude = c.req.raw.headers.get("cf-iplatitude");
+
+		const { data, error } = await neonApiClient.POST("/projects", {
+			body: {
+				project: {
+					region_id: findClosestRegion({
+						lat: Number(ipLatitude),
+						lon: Number(ipLongitude),
+					}) as keyof typeof regions,
+					pg_version: 16,
+					// @ts-ignore
+					default_endpoint_settings: {
+						autoscaling_limit_min_cu: 0.25,
+						autoscaling_limit_max_cu: 0.25,
+						suspend_timeout_seconds: 120,
+					},
+				},
+			},
+		});
+
+		const timeToProvision = Date.now() - start;
+
+		if (error) {
+			return c.json<ErrorResponse, 400>(
+				{
+					result: null,
+					success: false,
+					error: {
+						message: error.message,
+						code: error.code,
+					},
+				},
+				400,
+			);
+		}
+
+		try {
+			const client = db(c.env.DATABASE_URL);
+
+			await client.insert(projects).values({
+				projectId: data?.project.id as string,
+			});
+		} catch (error) {
+			return c.json<ErrorResponse, 400>(
+				{
+					result: null,
+					success: false,
+					error: {
+						message: "Failed to save project to database",
+						code: "400",
+					},
+				},
+				400,
+			);
+		}
+
+		const newProjectData: ProjectProvision = {
+			connectionUri: data.connection_uris[0]?.connection_uri,
+			project: data.project,
+			hasCreatedProject: true,
+			timeToProvision,
+		};
+
+		await setSignedCookie(
+			c,
+			"neon-project",
+			JSON.stringify(newProjectData),
+			c.env.COOKIE_SECRET,
+			{
+				httpOnly: true,
+				secure: true,
+				sameSite: "None",
+				maxAge: 300, // 5 minutes
+			},
+		);
+
+		return c.json<SuccessResponse<ProjectProvision>, 201>(
+			{
+				result: newProjectData,
 				success: true,
 				error: null,
 			},
-			200,
+			201,
 		);
-	}
-
-	const neonApiClient = neon(c.env.NEON_API_KEY);
-
-	const start = Date.now();
-
-	const ipLongitude = c.req.raw.headers.get("cf-iplongitude");
-	const ipLatitude = c.req.raw.headers.get("cf-iplatitude");
-
-	const { data, error } = await neonApiClient.POST("/projects", {
-		body: {
-			project: {
-				region_id: findClosestRegion({
-					lat: Number(ipLatitude),
-					lon: Number(ipLongitude),
-				}) as keyof typeof regions,
-				pg_version: 16,
-				// @ts-ignore
-				default_endpoint_settings: {
-					autoscaling_limit_min_cu: 0.25,
-					autoscaling_limit_max_cu: 0.25,
-					suspend_timeout_seconds: 120,
-				},
-			},
-		},
-	});
-
-	const timeToProvision = Date.now() - start;
-
-	if (error) {
-		return c.json<ErrorResponse, 400>(
-			{
-				result: null,
-				success: false,
-				error: {
-					message: error.message,
-					code: error.code,
-				},
-			},
-			400,
-		);
-	}
-
-	try {
-		const client = db(c.env.DATABASE_URL);
-
-		await client.insert(projects).values({
-			projectId: data?.project.id as string,
-		});
-	} catch (error) {
-		return c.json<ErrorResponse, 400>(
-			{
-				result: null,
-				success: false,
-				error: {
-					message: "Failed to save project to database",
-					code: "400",
-				},
-			},
-			400,
-		);
-	}
-
-	const newProjectData: ProjectProvision = {
-		connectionUri: data.connection_uris[0]?.connection_uri,
-		project: data.project,
-		hasCreatedProject: true,
-		timeToProvision,
-	};
-
-	await setSignedCookie(
-		c,
-		"neon-project",
-		JSON.stringify(newProjectData),
-		c.env.COOKIE_SECRET,
-		{
-			httpOnly: true,
-			secure: true,
-			sameSite: "None",
-			maxAge: 300, // 5 minutes
-		},
-	);
-
-	return c.json<SuccessResponse<ProjectProvision>, 201>(
-		{
-			result: newProjectData,
-			success: true,
-			error: null,
-		},
-		201,
-	);
-});
+	},
+);
 
 export type AppType = typeof route;
 

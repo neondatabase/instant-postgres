@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "@instant-postgres/neon": "^0.1.0",
+    "@marsidev/react-turnstile": "^0.6.1",
     "@neondatabase/serverless": "^0.9.3",
     "@remix-run/cloudflare": "^2.8.1",
     "@remix-run/cloudflare-pages": "^2.8.1",

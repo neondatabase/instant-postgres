@@ -1,7 +1,7 @@
 import type { MetaFunction } from "@remix-run/cloudflare";
 import { json } from "@remix-run/cloudflare";
 import {
-	type ClientActionFunctionArgs,
+	ClientActionFunctionArgs,
 	useActionData,
 	useNavigation,
 } from "@remix-run/react";
@@ -18,7 +18,10 @@ import { minDelay } from "~/lib/min-delay";
 
 export const meta: MetaFunction = () => SEO;
 
-export const clientAction = async () => {
+export const clientAction = async ({ request }: ClientActionFunctionArgs) => {
+	const formdata = await request.formData();
+	const cfTurnstileResponse = formdata.get("cf-turnstile-response") as string;
+
 	const API_URL = import.meta.env.VITE_API_URL;
 	try {
 		const client = hc<AppType>(API_URL, {
@@ -30,7 +33,14 @@ export const clientAction = async () => {
 			},
 		});
 
-		const res = await minDelay(client.postgres.$post(), 800);
+		const res = await minDelay(
+			client.postgres.$post({
+				json: {
+					cfTurnstileResponse,
+				},
+			}),
+			800,
+		);
 
 		const data = await res.json();
 
