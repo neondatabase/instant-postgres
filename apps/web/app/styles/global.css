@@ -5,3 +5,45 @@
 .cm-content {
   line-height: 2;
 }
+
+html {
+  scrollbar-face-color: #484848;
+  scrollbar-base-color: #484848;
+  scrollbar-3dlight-color: #484848;
+  scrollbar-highlight-color: #484848;
+  scrollbar-track-color: #000;
+  scrollbar-arrow-color: #000;
+  scrollbar-shadow-color: #484848;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 3px;
+}
+
+::-webkit-scrollbar-button {
+  background-color: #FFFFFF55;
+}
+
+::-webkit-scrollbar-track {
+  background-color: #484848;
+}
+
+::-webkit-scrollbar-track-piece {
+  background-color: #000;
+}
+
+::-webkit-scrollbar-thumb {
+  height: 50px;
+  background-color: #FFFFFF55;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-corner {
+  background-color: #484848;
+}
+
+
+::-webkit-resizer {
+  background-color: #FFFFFF55;
+}
