@@ -4,6 +4,9 @@ import { cors } from "hono/cors";
 import { db } from "@instant-postgres/db";
 import { projects } from "@instant-postgres/db/schema";
 import { neon, type schema } from "@instant-postgres/neon";
+import { Ratelimit } from "@upstash/ratelimit";
+import { Redis } from "@upstash/redis/cloudflare";
+
 import {
 	findClosestRegion,
 	type regions,
@@ -64,29 +67,31 @@ const route = app.post(
 		}),
 	),
 	async (c) => {
-		// TODO: Rate limit the endpoint
+		const ip = c.req.raw.headers.get("CF-Connecting-IP") as string;
 
-		// const cache = new Map();
+		const redis = new Redis({
+			url: c.env.UPSTASH_REDIS_REST_URL,
+			token: c.env.UPSTASH_REDIS_REST_TOKEN,
+		});
 
-		// const redis = new Redis({
-		// 	url: c.env.UPSTASH_REDIS_REST_URL,
-		// 	token: c.env.UPSTASH_REDIS_REST_TOKEN,
-		// });
+		const ratelimit = new Ratelimit({
+			redis,
+			limiter: Ratelimit.slidingWindow(10, "10 s"),
+			analytics: true,
+		});
 
-		// const ratelimit = new Ratelimit({
-		// 	redis,
-		// 	limiter: Ratelimit.cachedFixedWindow(5, "5 s"),
-		// 	ephemeralCache: cache,
-		// 	analytics: true,
-		// });
+		const { success, limit, reset, remaining } = await ratelimit.limit(ip);
 
-		// const res = await ratelimit.limit(ip);
-
-		// c.executionCtx.waitUntil(res.pending);
-
-		// if (!res.success) {
-		// 	return new Response("Rate limit exceeded", { status: 500 });
-		// }
+		if (!success) {
+			return new Response("Too many requests", {
+				status: 429,
+				headers: {
+					"X-RateLimit-Limit": limit.toString(),
+					"X-RateLimit-Remaining": remaining.toString(),
+					"X-RateLimit-Reset": reset.toString(),
+				},
+			});
+		}
 
 		const projectData = await getSignedCookie(
 			c,
@@ -108,8 +113,8 @@ const route = app.post(
 		}
 
 		const body = await c.req.json();
+
 		const token = body.cfTurnstileResponse;
-		const ip = c.req.raw.headers.get("CF-Connecting-IP") as string;
 
 		const formData = new FormData();
 		formData.append("secret", c.env.CLOUDFLARE_TURNSTILE_SECRET_KEY);

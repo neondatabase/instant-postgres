@@ -1,8 +1,7 @@
 import { Form } from "@remix-run/react";
 import { Button } from "./ui/button";
 import { Turnstile } from "@marsidev/react-turnstile";
-import { useRef, useState } from "react";
-import type { TurnstileInstance } from "@marsidev/react-turnstile";
+import { useState } from "react";
 
 type DeployButtonProps = {
 	isLoading: boolean;

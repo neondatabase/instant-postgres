@@ -1,7 +1,7 @@
 export const Message = () => {
 	return (
 		<p className=" animate-in fade-in slide-in-from-top text-[#AFB1B6] text-sm">
-			The database will be deleted after 5 minutes.{" "}
+			This database will be deleted after 5 minutes.{" "}
 			<a
 				className="text-white underline hover:no-underline"
 				href="https://console.neon.tech/?ref=instantPostgres"
