@@ -7,7 +7,8 @@ import { cn } from "~/lib/cn";
 const buttonVariants = {
 	primary: "bg-[#00e599] text-black hover:bg-[#00e599]",
 	ghost: "hover:bg-[#343535] hover:text-white data-[focus-visible]:text-white",
-	outline: "border border-white/[0.04] hover:bg-[#343535] text-white",
+	outline:
+		"border border-white/[0.04] hover:bg-[#343535] text-white bg-[#0c0d0d]",
 } as const;
 
 export type ButtonProps = BtnProps & {

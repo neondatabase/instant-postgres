@@ -19,7 +19,7 @@ import createTheme from "@uiw/codemirror-themes";
 import { useFetcher } from "@remix-run/react";
 import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
 import type { clientAction } from "~/routes/query";
-import ReactCodeMirror from "@uiw/react-codemirror";
+import Editor from "@uiw/react-codemirror";
 import { sql } from "@codemirror/lang-sql";
 
 type CodeEditorProps = {
@@ -32,7 +32,7 @@ export const SqlEditor = ({
 	connectionUri,
 }: CodeEditorProps) => {
 	const [query, setQuery] = useState(
-		"CREATE TABLE playing_with_neon(id SERIAL PRIMARY KEY, name TEXT NOT NULL, value REAL);\nINSERT INTO playing_with_neon(name, value)\nSELECT LEFT(md5(i::TEXT), 10), random() FROM generate_series(1, 10) s(i);\nSELECT * FROM playing_with_neon;\n\n\n\n\n\n",
+		"CREATE TABLE playing_with_neon(id SERIAL PRIMARY KEY, name TEXT NOT NULL, value REAL);\nINSERT INTO playing_with_neon(name, value)\nSELECT LEFT(md5(i::TEXT), 10), random() FROM generate_series(1, 10) s(i);\nSELECT * FROM playing_with_neon;",
 	);
 	const onChange = useCallback((val) => {
 		setQuery(val);
@@ -62,13 +62,20 @@ export const SqlEditor = ({
 						)}
 						<PanelGroup direction="vertical">
 							<Panel className="relative" defaultSize={50} maxSize={75}>
-								<ReactCodeMirror
+								<Editor
+									editable={hasCreatedProject}
 									value={query}
 									theme={darkTheme}
-									className={"h-full font-mono leading-loose "}
+									basicSetup={{
+										foldGutter: false,
+										highlightActiveLineGutter: false,
+										lineNumbers: false,
+										crosshairCursor: true,
+										highlightActiveLine: false,
+									}}
 									extensions={[sql({ upperCaseKeywords: true })]}
 									onChange={onChange}
-									aria-disabled={!hasCreatedProject}
+									height="100%"
 									style={{
 										backgroundColor: "#0C0D0D",
 										fontFamily:
@@ -76,6 +83,9 @@ export const SqlEditor = ({
 										fontSize: "0.875rem",
 										borderRadius: "10px",
 										overflow: "auto",
+										lineHeight: "2",
+										height: "100%",
+										margin: "1rem",
 									}}
 								/>
 								<fetcher.Form
@@ -246,7 +256,7 @@ export const Result = ({ queryResult }) => {
 	});
 
 	return (
-		<>
+		<div className="mt-10">
 			{queryResult ? (
 				<div className="mx-3 inline-block py-2 align-middle overflow-auto">
 					{table.getRowModel().rows?.length > 0 && (
@@ -361,7 +371,7 @@ export const Result = ({ queryResult }) => {
 					</p>
 				</div>
 			)}
-		</>
+		</div>
 	);
 };
 

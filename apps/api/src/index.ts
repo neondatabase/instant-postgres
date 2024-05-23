@@ -10,8 +10,6 @@ import {
 } from "@instant-postgres/neon/regions";
 import { z } from "zod";
 import { zValidator } from "@hono/zod-validator";
-import { Ratelimit } from "@upstash/ratelimit";
-import { Redis } from "@upstash/redis";
 
 type Bindings = {
 	DATABASE_URL: string;
@@ -66,40 +64,7 @@ const route = app.post(
 		}),
 	),
 	async (c) => {
-		const body = await c.req.json();
-		const token = body.cfTurnstileResponse;
-		const ip = c.req.raw.headers.get("CF-Connecting-IP") as string;
-
-		const formData = new FormData();
-		formData.append("secret", c.env.CLOUDFLARE_TURNSTILE_SECRET_KEY);
-		formData.append("response", token);
-		formData.append("remoteip", ip);
-
-		const result = await fetch(
-			"https://challenges.cloudflare.com/turnstile/v0/siteverify",
-			{
-				body: formData,
-				method: "POST",
-			},
-		);
-
-		const outcome = await result.json();
-
-		if (!outcome.success) {
-			return c.json<ErrorResponse, 400>(
-				{
-					result: null,
-					success: false,
-					error: {
-						message: `Failed to validate captcha token: ${outcome[
-							"error-codes"
-						].join()}`,
-						code: "400",
-					},
-				},
-				400,
-			);
-		}
+		// TODO: Rate limit the endpoint
 
 		// const cache = new Map();
 
@@ -142,12 +107,52 @@ const route = app.post(
 			);
 		}
 
+		const body = await c.req.json();
+		const token = body.cfTurnstileResponse;
+		const ip = c.req.raw.headers.get("CF-Connecting-IP") as string;
+
+		const formData = new FormData();
+		formData.append("secret", c.env.CLOUDFLARE_TURNSTILE_SECRET_KEY);
+		formData.append("response", token);
+		formData.append("remoteip", ip);
+
+		const result = await fetch(
+			"https://challenges.cloudflare.com/turnstile/v0/siteverify",
+			{
+				body: formData,
+				method: "POST",
+			},
+		);
+
+		const outcome = await result.json();
+
+		if (!outcome.success) {
+			return c.json<ErrorResponse, 400>(
+				{
+					result: null,
+					success: false,
+					error: {
+						message: `Failed to validate captcha token: ${outcome[
+							"error-codes"
+						].join()}`,
+						code: "400",
+					},
+				},
+				400,
+			);
+		}
+
 		const neonApiClient = neon(c.env.NEON_API_KEY);
 
 		const start = Date.now();
 
 		const ipLongitude = c.req.raw.headers.get("cf-iplongitude");
 		const ipLatitude = c.req.raw.headers.get("cf-iplatitude");
+
+		console.log({
+			ipLongitude,
+			ipLatitude,
+		});
 
 		const { data, error } = await neonApiClient.POST("/projects", {
 			body: {
