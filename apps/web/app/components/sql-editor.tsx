@@ -32,7 +32,7 @@ export const SqlEditor = ({
 	connectionUri,
 }: CodeEditorProps) => {
 	const [query, setQuery] = useState(
-		"CREATE TABLE playing_with_neon(id SERIAL PRIMARY KEY, name TEXT NOT NULL, value REAL);\nINSERT INTO playing_with_neon(name, value)\nSELECT LEFT(md5(i::TEXT), 10), random() FROM generate_series(1, 10) s(i);\nSELECT * FROM playing_with_neon;",
+		"CREATE TABLE playing_with_neon(id SERIAL PRIMARY KEY, name TEXT NOT NULL, value REAL);\nINSERT INTO playing_with_neon(name, value)\nSELECT LEFT(md5(i::TEXT), 10), random() FROM generate_series(1, 10) s(i);\nSELECT * FROM playing_with_neon;\n\n\n\n\n\n",
 	);
 	const onChange = useCallback((val) => {
 		setQuery(val);
@@ -61,7 +61,7 @@ export const SqlEditor = ({
 							<div className="bg-black w-full h-full absolute inset-0 z-20 opacity-60 rounded-[10px]" />
 						)}
 						<PanelGroup direction="vertical">
-							<Panel className="relative" defaultSize={75} maxSize={75}>
+							<Panel className="relative" defaultSize={50} maxSize={75}>
 								<ReactCodeMirror
 									value={query}
 									theme={darkTheme}
@@ -162,7 +162,7 @@ export const SqlEditor = ({
 
 							<Panel
 								className="text-white bg-[#0C0D0D] p-5 overflow-auto"
-								defaultSize={25}
+								defaultSize={50}
 								maxSize={50}
 							>
 								<div className="h-full overflow-auto">
@@ -368,7 +368,7 @@ export const Result = ({ queryResult }) => {
 const darkTheme = createTheme({
 	theme: "dark",
 	settings: {
-		background: "#151718",
+		background: "#0c0d0d",
 		foreground: "#c9d1d9",
 		caret: "#c9d1d9",
 		selection: "#003d73",
