@@ -1,6 +1,5 @@
 import { Form } from "@remix-run/react";
 import { Button } from "./ui/button";
-import { Check, Database, LoaderCircle } from "lucide-react";
 import { TurnstileWidget } from "./turnstile-widget";
 
 type DeployButtonProps = {
@@ -27,11 +26,58 @@ export const DeployButton = ({
 				className="h-[43px]  hover:shadow-[0px_8px_30px_0px_rgba(0,229,153,.16)] transition-shadow disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:shadow-none"
 			>
 				{isLoading ? (
-					<LoaderCircle strokeWidth={3} className="w-4 h-4 mr-2 animate-spin" />
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						width="24"
+						height="24"
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="currentColor"
+						strokeWidth="3"
+						strokeLinecap="round"
+						strokeLinejoin="round"
+						className="w-4 h-4 mr-2 animate-spin"
+						role="img"
+						aria-label="Loading"
+					>
+						<path d="M21 12a9 9 0 1 1-6.219-8.56" />
+					</svg>
 				) : hasCreatedProject ? (
-					<Check className="w-4 h-4 mr-2" strokeWidth={3} />
+					<svg
+						className="w-4 h-4"
+						xmlns="http://www.w3.org/2000/svg"
+						width="24"
+						height="24"
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="currentColor"
+						strokeWidth="3"
+						strokeLinecap="round"
+						strokeLinejoin="round"
+						role="img"
+						aria-label="Copied to clipboard"
+					>
+						<path d="M20 6 9 17l-5-5" />
+					</svg>
 				) : (
-					<Database className="w-4 h-4 mr-2" strokeWidth={3} />
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						width="24"
+						height="24"
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="currentColor"
+						strokeWidth="2"
+						strokeLinecap="round"
+						strokeLinejoin="round"
+						className="w-4 h-4 mr-2"
+						role="img"
+						aria-label="Database"
+					>
+						<ellipse cx="12" cy="5" rx="9" ry="3" />
+						<path d="M3 5V19A9 3 0 0 0 21 19V5" />
+						<path d="M3 12A9 3 0 0 0 21 12" />
+					</svg>
 				)}
 				Deploy Postgres{" "}
 			</Button>

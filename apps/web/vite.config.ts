@@ -11,6 +11,12 @@ export default defineConfig({
 		port: 3000,
 	},
 	ssr: {
-		noExternal: ["@uiw/react-textarea-code-editor"],
+		noExternal: [
+			"@uiw/react-codemirror",
+			"@lezer/highlight",
+			"@uiw/codemirror-theme-github",
+			"@uiw/codemirror-themes",
+			"@uiw/react-codemirror",
+		],
 	},
 });
