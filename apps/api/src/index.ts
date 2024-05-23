@@ -47,8 +47,6 @@ type ProjectProvision = {
 
 const app = new Hono<{ Bindings: Bindings }>();
 
-const cache = new Map();
-
 app.use("*", async (c, next) => {
 	const corsMiddleware = cors({
 		origin: c.env.APP_URL.replace(/\/$/, ""),
@@ -103,25 +101,27 @@ const route = app.post(
 			);
 		}
 
-		const cache = new Map();
+		// const cache = new Map();
 
-		const ratelimit = new Ratelimit({
-			redis: new Redis({
-				url: c.env.UPSTASH_REDIS_REST_URL,
-				token: c.env.UPSTASH_REDIS_REST_TOKEN,
-			}),
-			limiter: Ratelimit.cachedFixedWindow(5, "5 s"),
-			ephemeralCache: cache,
-			analytics: true,
-		});
+		// const redis = new Redis({
+		// 	url: c.env.UPSTASH_REDIS_REST_URL,
+		// 	token: c.env.UPSTASH_REDIS_REST_TOKEN,
+		// });
 
-		const res = await ratelimit.limit(ip);
+		// const ratelimit = new Ratelimit({
+		// 	redis,
+		// 	limiter: Ratelimit.cachedFixedWindow(5, "5 s"),
+		// 	ephemeralCache: cache,
+		// 	analytics: true,
+		// });
 
-		c.executionCtx.waitUntil(res.pending);
+		// const res = await ratelimit.limit(ip);
 
-		if (!res.success) {
-			return new Response("Rate limit exceeded", { status: 500 });
-		}
+		// c.executionCtx.waitUntil(res.pending);
+
+		// if (!res.success) {
+		// 	return new Response("Rate limit exceeded", { status: 500 });
+		// }
 
 		const projectData = await getSignedCookie(
 			c,
