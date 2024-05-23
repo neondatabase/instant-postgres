@@ -96,10 +96,10 @@ export default function Index() {
 					</div>
 				</div>
 				<div className="mt-10" />
-				{/* <SqlEditor
+				<SqlEditor
 					hasCreatedProject={hasCreatedProject}
 					connectionUri={connectionUri}
-				/> */}
+				/>
 			</div>
 		</div>
 	);

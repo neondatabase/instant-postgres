@@ -65,7 +65,7 @@ const route = app.post(
 	),
 	async (c) => {
 		const body = await c.req.json();
-		const token = body["cf-turnstile-response"];
+		const token = body.cfTurnstileResponse;
 		const ip = c.req.raw.headers.get("CF-Connecting-IP") as string;
 
 		const formData = new FormData();
