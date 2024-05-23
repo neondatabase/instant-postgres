@@ -10,6 +10,8 @@ import {
 } from "@instant-postgres/neon/regions";
 import { z } from "zod";
 import { zValidator } from "@hono/zod-validator";
+import { Ratelimit } from "@upstash/ratelimit";
+import { Redis } from "@upstash/redis";
 
 type Bindings = {
 	DATABASE_URL: string;
@@ -45,6 +47,8 @@ type ProjectProvision = {
 
 const app = new Hono<{ Bindings: Bindings }>();
 
+const cache = new Map();
+
 app.use("*", async (c, next) => {
 	const corsMiddleware = cors({
 		origin: c.env.APP_URL.replace(/\/$/, ""),
@@ -72,7 +76,6 @@ const route = app.post(
 		formData.append("secret", c.env.CLOUDFLARE_TURNSTILE_SECRET_KEY);
 		formData.append("response", token);
 		formData.append("remoteip", ip);
-		console.log(formData);
 
 		const result = await fetch(
 			"https://challenges.cloudflare.com/turnstile/v0/siteverify",
@@ -98,6 +101,26 @@ const route = app.post(
 				},
 				400,
 			);
+		}
+
+		const cache = new Map();
+
+		const ratelimit = new Ratelimit({
+			redis: new Redis({
+				url: c.env.UPSTASH_REDIS_REST_URL,
+				token: c.env.UPSTASH_REDIS_REST_TOKEN,
+			}),
+			limiter: Ratelimit.cachedFixedWindow(5, "5 s"),
+			ephemeralCache: cache,
+			analytics: true,
+		});
+
+		const res = await ratelimit.limit(ip);
+
+		c.executionCtx.waitUntil(res.pending);
+
+		if (!res.success) {
+			return new Response("Rate limit exceeded", { status: 500 });
 		}
 
 		const projectData = await getSignedCookie(
