@@ -1,6 +1,8 @@
 import { Form } from "@remix-run/react";
 import { Button } from "./ui/button";
-import { TurnstileWidget } from "./turnstile-widget";
+import { Turnstile } from "@marsidev/react-turnstile";
+import { useRef, useState } from "react";
+import type { TurnstileInstance } from "@marsidev/react-turnstile";
 
 type DeployButtonProps = {
 	isLoading: boolean;
@@ -11,6 +13,8 @@ export const DeployButton = ({
 	isLoading,
 	hasCreatedProject,
 }: DeployButtonProps) => {
+	const [token, setToken] = useState(null);
+
 	return (
 		<Form
 			method="POST"
@@ -21,7 +25,7 @@ export const DeployButton = ({
 				value="deploy"
 				size="lg"
 				variant="primary"
-				isDisabled={isLoading || hasCreatedProject}
+				isDisabled={!token || isLoading || hasCreatedProject}
 				type="submit"
 				className="h-[43px]  hover:shadow-[0px_8px_30px_0px_rgba(0,229,153,.16)] transition-shadow disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:shadow-none"
 			>
@@ -81,7 +85,8 @@ export const DeployButton = ({
 				)}
 				Deploy Postgres{" "}
 			</Button>
-			<TurnstileWidget />
+
+			<Turnstile siteKey="0x4AAAAAAAa4q5vJcjGaJqL7" onSuccess={setToken} />
 		</Form>
 	);
 };
