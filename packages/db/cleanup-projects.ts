@@ -36,11 +36,6 @@ const main = async () => {
 			});
 		}),
 	);
-
-	// delete project records from database that are older than 5 minutes
-	await client
-		.delete(projects)
-		.where(sql`${projects.createdAt} < ${fiveMinutesAgo}`);
 };
 
 main().catch((error) => {
