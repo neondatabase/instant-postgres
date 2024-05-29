@@ -1,5 +1,5 @@
 import { neon } from "@instant-postgres/neon";
-import { db, lte } from ".";
+import { db, lte, sql } from ".";
 import { projects } from "./schema";
 
 const DATABASE_URL = process.env.DATABASE_URL;
@@ -10,15 +10,19 @@ const main = async () => {
 		throw new Error("Missing DATABASE_URL or NEON_API_KEY env var");
 	}
 
-	const sql = db(DATABASE_URL);
+	const client = db(DATABASE_URL);
 
 	const neonApiClient = neon(NEON_API_KEY);
 
 	// fetch projects from database that are older than 5 minutes
-	const oldProjects = await sql
+
+	const fiveMinutesAgo = sql`now() - interval '5 minutes'`;
+
+	const oldProjects = await client
 		.select()
 		.from(projects)
-		.where(lte(projects.createdAt, new Date(Date.now() - 5 * 60 * 1000)));
+		.where(sql`${projects.createdAt} < ${fiveMinutesAgo}`)
+		.execute();
 
 	// delete projects from Neon that are older than 5 minutes
 	await Promise.all(
@@ -34,10 +38,9 @@ const main = async () => {
 	);
 
 	// delete project records from database that are older than 5 minutes
-
-	await sql
+	await client
 		.delete(projects)
-		.where(lte(projects.createdAt, new Date(Date.now() - 5 * 60 * 1000)));
+		.where(sql`${projects.createdAt} < ${fiveMinutesAgo}`);
 };
 
 main().catch((error) => {
