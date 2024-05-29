@@ -20,6 +20,7 @@ const main = async () => {
 		.from(projects)
 		.where(lte(projects.createdAt, new Date(Date.now() - 5 * 60 * 1000)));
 
+	// delete projects from Neon that are older than 5 minutes
 	await Promise.all(
 		oldProjects.map(async (project) => {
 			await neonApiClient.DELETE("/projects/{project_id}", {
@@ -31,6 +32,12 @@ const main = async () => {
 			});
 		}),
 	);
+
+	// delete project records from database that are older than 5 minutes
+
+	await sql
+		.delete(projects)
+		.where(lte(projects.createdAt, new Date(Date.now() - 5 * 60 * 1000)));
 };
 
 main().catch((error) => {
