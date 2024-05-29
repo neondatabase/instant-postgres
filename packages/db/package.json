@@ -14,8 +14,8 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@planetscale/database": "^1.11.0",
-    "drizzle-orm": "^0.30.10"
+    "drizzle-orm": "^0.30.10",
+    "@instant-postgres/neon": "*"
   },
   "devDependencies": {
     "@biomejs/biome": "^1.5.3",

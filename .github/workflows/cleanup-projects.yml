@@ -1,0 +1,22 @@
+name: Cleanup Projects
+
+on:
+  schedule:
+    - cron: "*/5 * * * *"
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v1
+
+      - name: Install Dependencies
+        run: bun install
+
+      - name: Cleanup Projects
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          NEON_API_KEY: ${{ secrets.NEON_API_KEY }}
+        run: bun run packages/db/cleanup-projects.ts
