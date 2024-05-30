@@ -12,6 +12,7 @@ export const projects = pgTable(
 	{
 		id: serial("id").primaryKey(),
 		projectId: varchar("project_id", { length: 256 }).notNull().unique(), // provided by Neon
+		region: varchar("region", { length: 256 }).notNull(), // provided by Neon
 		createdAt: timestamp("created_at", { withTimezone: true }).defaultNow(),
 		updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow(),
 	},

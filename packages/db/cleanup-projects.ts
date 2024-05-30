@@ -1,5 +1,5 @@
 import { neon } from "@instant-postgres/neon";
-import { db, lte, sql } from ".";
+import { db, sql } from ".";
 import { projects } from "./schema";
 
 const DATABASE_URL = process.env.DATABASE_URL;

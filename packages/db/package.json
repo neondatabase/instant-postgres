@@ -7,11 +7,13 @@
   "license": "MIT",
   "scripts": {
     "clean": "rm -rf .turbo node_modules",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate",
     "lint": "biome lint --apply .",
     "format": "biome format --write .",
     "push": "drizzle-kit push:mysql",
     "studio": "drizzle-kit studio",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
   },
   "dependencies": {
     "drizzle-orm": "^0.30.10",

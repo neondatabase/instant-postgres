@@ -154,11 +154,6 @@ const route = app.post(
 		const ipLongitude = c.req.raw.headers.get("cf-iplongitude");
 		const ipLatitude = c.req.raw.headers.get("cf-iplatitude");
 
-		console.log({
-			ipLongitude,
-			ipLatitude,
-		});
-
 		const { data, error } = await neonApiClient.POST("/projects", {
 			body: {
 				project: {
@@ -197,7 +192,8 @@ const route = app.post(
 			const client = db(c.env.DATABASE_URL);
 
 			await client.insert(projects).values({
-				projectId: data?.project.id as string,
+				projectId: data?.project.id,
+				region: data?.project.region_id,
 			});
 		} catch (error) {
 			return c.json<ErrorResponse, 400>(
