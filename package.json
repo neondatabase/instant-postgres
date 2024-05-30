@@ -1,28 +1,24 @@
 {
-  "name": "instant-postgres",
-  "description": "An app showcasing how you can provison Postgres instantly with Neon",
-  "private": true,
-  "engines": {
-    "node": ">=21.7.2"
-  },
-  "scripts": {
-    "build": "turbo build",
-    "clean": "git clean -xdf node_modules",
-    "clean:workspaces": "turbo clean",
-    "dev": "turbo dev --parallel",
-    "format": "turbo format",
-    "lint": "turbo lint",
-    "typecheck": "turbo typecheck"
-  },
-  "devDependencies": {
-    "@biomejs/biome": "^1.5.3",
-    "turbo": "^1.10.16",
-    "typescript": "^5.2.2"
-  },
-  "packageManager": "bun@1.1.10",
-  "workspaces": [
-    "apps/*",
-    "packages/*",
-    "tooling/*"
-  ]
+	"name": "instant-postgres",
+	"description": "An app showcasing how you can provison Postgres instantly with Neon",
+	"private": true,
+	"engines": {
+		"node": ">=21.7.2"
+	},
+	"scripts": {
+		"build": "turbo build",
+		"clean": "git clean -xdf node_modules",
+		"clean:workspaces": "turbo clean",
+		"dev": "turbo dev --parallel",
+		"format": "turbo format",
+		"lint": "turbo lint",
+		"typecheck": "turbo typecheck"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "^1.5.3",
+		"turbo": "^1.10.16",
+		"typescript": "^5.2.2"
+	},
+	"packageManager": "bun@1.1.10",
+	"workspaces": ["apps/*", "packages/*", "tooling/*"]
 }
