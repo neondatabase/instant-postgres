@@ -5,6 +5,7 @@ import {
 	varchar,
 	timestamp,
 	index,
+	boolean,
 } from "drizzle-orm/pg-core";
 
 export const projects = pgTable(
@@ -15,6 +16,7 @@ export const projects = pgTable(
 		region: varchar("region", { length: 256 }).notNull(), // provided by Neon
 		createdAt: timestamp("created_at", { withTimezone: true }).defaultNow(),
 		updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow(),
+		isDeleted: boolean("is_deleted").default(false),
 	},
 	(t) => ({
 		projectIdIdx: index("project_id_idx").on(t.projectId),
