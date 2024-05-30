@@ -190,18 +190,22 @@ const route = app.post(
 
 		try {
 			const client = db(c.env.DATABASE_URL);
-
+			console.log({
+				projectId: data?.project.id,
+				region: data?.project.region_id,
+			});
 			await client.insert(projects).values({
 				projectId: data?.project.id,
 				region: data?.project.region_id,
 			});
 		} catch (error) {
+			console.error("Failed to save project to database:", error);
 			return c.json<ErrorResponse, 400>(
 				{
 					result: null,
 					success: false,
 					error: {
-						message: "Failed to save project to database",
+						message: "Failed to save project to database:",
 						code: "400",
 					},
 				},
