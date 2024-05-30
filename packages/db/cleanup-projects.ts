@@ -1,11 +1,12 @@
 import { neon } from "@instant-postgres/neon";
 import { and, db, sql } from ".";
-import { projects } from "./schema";
+import { type Project, projects } from "./schema";
+import type { NeonDriver } from "drizzle-orm/neon-serverless";
 
 const DATABASE_URL = process.env.DATABASE_URL;
 const NEON_API_KEY = process.env.NEON_API_KEY;
 
-const fetchOldProjects = async (client) => {
+const fetchOldProjects = async (client: NeonDriver["client"]) => {
 	const fiveMinutesAgo = sql`now() - interval '5 minutes'`;
 	return client
 		.select()
@@ -15,14 +16,16 @@ const fetchOldProjects = async (client) => {
 				sql`${projects.createdAt} < ${fiveMinutesAgo}`,
 				sql`${projects.isDeleted} = false`,
 			),
-		)
-		.execute();
+		);
 };
 
-const deleteProjectsFromNeon = async (neonApiClient, oldProjects) => {
+const deleteProjectsFromNeon = async (
+	neonApiClient: ReturnType<typeof neon>,
+	oldProjects: Project[],
+) => {
 	return Promise.all(
-		oldProjects.map((project) =>
-			neonApiClient.DELETE(`/projects/${project.projectId}`, {
+		oldProjects.map((project: Project) =>
+			neonApiClient.DELETE("/projects/{project_id}", {
 				params: {
 					path: {
 						project_id: project.projectId,
@@ -33,7 +36,7 @@ const deleteProjectsFromNeon = async (neonApiClient, oldProjects) => {
 	);
 };
 
-const markProjectsAsDeleted = async (client) => {
+const markProjectsAsDeleted = async (client: NeonDriver["client"]) => {
 	const fiveMinutesAgo = sql`now() - interval '5 minutes'`;
 	return client
 		.update(projects)
