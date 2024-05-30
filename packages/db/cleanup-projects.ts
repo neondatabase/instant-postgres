@@ -27,7 +27,8 @@ const main = async () => {
 
 		console.log("oldProjects", oldProjects);
 		// delete projects from Neon that are older than 5 minutes
-		await Promise.all(
+
+		const toBeDeleted = await Promise.all(
 			oldProjects.map(async (project) => {
 				await neonApiClient.DELETE("/projects/{project_id}", {
 					params: {
@@ -38,6 +39,8 @@ const main = async () => {
 				});
 			}),
 		);
+
+		console.log("toBeDeleted", toBeDeleted);
 	} catch (error) {
 		console.error("Error cleaning up projects", error);
 
