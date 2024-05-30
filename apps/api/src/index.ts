@@ -161,6 +161,11 @@ const route = app.post(
 						lat: Number(ipLatitude),
 						lon: Number(ipLongitude),
 					}) as keyof typeof regions,
+					settings: {
+						quota: {
+							logical_size_bytes: 250000000,
+						},
+					},
 					pg_version: 16,
 					// @ts-ignore
 					default_endpoint_settings: {
