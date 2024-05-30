@@ -16,26 +16,33 @@ const main = async () => {
 
 	// fetch projects from database that are older than 5 minutes
 
-	const fiveMinutesAgo = sql`now() - interval '5 minutes'`;
+	try {
+		const fiveMinutesAgo = sql`now() - interval '5 minutes'`;
 
-	const oldProjects = await client
-		.select()
-		.from(projects)
-		.where(sql`${projects.createdAt} < ${fiveMinutesAgo}`)
-		.execute();
+		const oldProjects = await client
+			.select()
+			.from(projects)
+			.where(sql`${projects.createdAt} < ${fiveMinutesAgo}`)
+			.execute();
 
-	// delete projects from Neon that are older than 5 minutes
-	await Promise.all(
-		oldProjects.map(async (project) => {
-			await neonApiClient.DELETE("/projects/{project_id}", {
-				params: {
-					path: {
-						project_id: project.projectId,
+		console.log("oldProjects", oldProjects);
+		// delete projects from Neon that are older than 5 minutes
+		await Promise.all(
+			oldProjects.map(async (project) => {
+				await neonApiClient.DELETE("/projects/{project_id}", {
+					params: {
+						path: {
+							project_id: project.projectId,
+						},
 					},
-				},
-			});
-		}),
-	);
+				});
+			}),
+		);
+	} catch (error) {
+		console.error("Error cleaning up projects", error);
+
+		throw error;
+	}
 };
 
 main().catch((error) => {
