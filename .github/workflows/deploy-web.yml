@@ -27,6 +27,6 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deploy ../../apps/web/build --project-name=instant-postgres-web
+          command: pages deploy ../../apps/web/build --project-name=instant-postgres --name=instant-postgres
           secrets: |
             VITE_API_URL
