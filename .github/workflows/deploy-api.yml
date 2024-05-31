@@ -36,16 +36,9 @@ jobs:
       - run: bun run build --filter=api
 
       - name: Deploy
-        uses: cloudflare/wrangler-action@v3
+        uses: cloudflare/pages-action@v1
         with:
-          apiToken: $CLOUDFLARE_API_TOKEN
-          accountId: $CLOUDFLARE_ACCOUNT_ID
-          command: pages deploy ../../apps/api/dist --project-name=instant-postgres-api
-          secrets: |
-            DATABASE_URL
-            COOKIE_SECRET
-            NEON_API_KEY
-            APP_URL
-            CLOUDFLARE_TURNSTILE_SECRET_KEY
-            UPSTASH_REDIS_REST_URL
-            UPSTASH_REDIS_REST_TOKEN
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          projectName: instant-postgres
+          directory: apps/api/dist

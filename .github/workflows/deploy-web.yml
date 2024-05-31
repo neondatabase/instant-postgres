@@ -6,9 +6,10 @@ on:
       - 'main'
     paths:
         - 'apps/web/**'
+        
 env:
   VITE_API_URL: http://localhost:8788
-  
+
 jobs:
   deploy-production:
     runs-on: ubuntu-latest
@@ -23,8 +24,9 @@ jobs:
       - run: bun run build --filter=web
 
       - name: Deploy
-        uses: cloudflare/wrangler-action@v3
+        uses: cloudflare/pages-action@v1
         with:
-          apiToken: $CLOUDFLARE_API_TOKEN
-          accountId: $CLOUDFLARE_ACCOUNT_ID
-          command: pages deploy ../../apps/web/build --project-name=instant-postgres
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          projectName: instant-postgres
+          directory: apps/web/build
