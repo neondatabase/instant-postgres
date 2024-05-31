@@ -1,4 +1,4 @@
 #:schema node_modules/wrangler/config-schema.json
 name = "instant-postgres-api"
 compatibility_date = "2024-05-29"
-pages_build_output_dir = "./build/client"
+pages_build_output_dir = "./dist"
