@@ -1,4 +1,4 @@
-import { runQuery } from "@instant-postgres/neon/run-query";
+import { runQuery } from "@instant-postgres/db/run-query";
 import { json, type ClientActionFunctionArgs } from "@remix-run/react";
 
 export const clientAction = async ({ request }: ClientActionFunctionArgs) => {

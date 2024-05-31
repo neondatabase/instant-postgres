@@ -6,7 +6,7 @@ import { projects } from "@instant-postgres/db/schema";
 import { neon, type schema } from "@instant-postgres/neon";
 import { Ratelimit } from "@upstash/ratelimit";
 import { Redis } from "@upstash/redis/cloudflare";
-
+import type { TurnstileServerValidationResponse } from "@instant-postgres/turnstile";
 import {
 	findClosestRegion,
 	type regions,
@@ -83,14 +83,22 @@ const route = app.post(
 		const { success, limit, reset, remaining } = await ratelimit.limit(ip);
 
 		if (!success) {
-			return new Response("Too many requests", {
-				status: 429,
-				headers: {
+			return c.json<ErrorResponse, 429>(
+				{
+					result: null,
+					success: false,
+					error: {
+						message: "Rate limit exceeded",
+						code: "429",
+					},
+				},
+				429,
+				{
 					"X-RateLimit-Limit": limit.toString(),
 					"X-RateLimit-Remaining": remaining.toString(),
 					"X-RateLimit-Reset": reset.toString(),
 				},
-			});
+			);
 		}
 
 		const projectData = await getSignedCookie(
@@ -129,7 +137,7 @@ const route = app.post(
 			},
 		);
 
-		const outcome = await result.json();
+		const outcome = (await result.json()) as TurnstileServerValidationResponse;
 
 		if (!outcome.success) {
 			return c.json<ErrorResponse, 400>(
@@ -195,10 +203,6 @@ const route = app.post(
 
 		try {
 			const client = db(c.env.DATABASE_URL);
-			console.log({
-				projectId: data?.project.id,
-				region: data?.project.region_id,
-			});
 			await client.insert(projects).values({
 				projectId: data?.project.id,
 				region: data?.project.region_id,

@@ -4,7 +4,15 @@ import { useScramble } from "use-scramble";
 import { cn } from "~/lib/cn";
 import { maskPassword } from "~/lib/mask-password";
 
-export const ConnectionString = ({ hasCreatedProject, connectionUri }) => {
+type ConnectionStringProps = {
+	hasCreatedProject: boolean;
+	connectionUri: string;
+};
+
+export const ConnectionString = ({
+	hasCreatedProject,
+	connectionUri,
+}: ConnectionStringProps) => {
 	const clipboard = useClipboard({
 		copiedTimeout: 600,
 	});

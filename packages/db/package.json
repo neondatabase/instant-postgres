@@ -5,14 +5,17 @@
 	"main": "./index.ts",
 	"types": "./index.ts",
 	"license": "MIT",
+	"exports": {
+		".": "./src/index.ts",
+		"./schema": "./src/schema/index.ts",
+		"./run-query": "./src/run-query.ts"
+	},
 	"scripts": {
 		"clean": "rm -rf .turbo node_modules",
 		"db:generate": "drizzle-kit generate",
 		"db:migrate": "drizzle-kit migrate",
 		"lint": "biome lint --apply .",
 		"format": "biome format --write .",
-		"push": "drizzle-kit push:mysql",
-		"studio": "drizzle-kit studio",
 		"typecheck": "tsc --noEmit"
 	},
 	"dependencies": {

@@ -1,6 +1,5 @@
 import createClient from "openapi-fetch";
 import type { paths } from "./schema";
-
 export * as regions from "./regions";
 export * as schema from "./schema";
 

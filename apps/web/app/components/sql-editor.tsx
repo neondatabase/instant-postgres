@@ -34,12 +34,18 @@ export const SqlEditor = ({
 	const [query, setQuery] = useState(
 		"CREATE TABLE playing_with_neon(id SERIAL PRIMARY KEY, name TEXT NOT NULL, value REAL);\nINSERT INTO playing_with_neon(name, value)\nSELECT LEFT(md5(i::TEXT), 10), random() FROM generate_series(1, 10) s(i);\nSELECT * FROM playing_with_neon;",
 	);
-	const onChange = useCallback((val) => {
+	const onChange = useCallback((val: string) => {
 		setQuery(val);
 	}, []);
 
 	const fetcher = useFetcher<typeof clientAction>();
 	const isLoading = fetcher.state !== "idle";
+
+	const queryResult = fetcher.data?.result.result ?? {
+		rows: [],
+		rowCount: 0,
+		columns: [],
+	};
 
 	return (
 		<div className="relative z-10 rounded-[14px] bg-white bg-opacity-[0.03] p-1.5 backdrop-blur-[4px] xl:rounded-xl w-full">
@@ -228,7 +234,7 @@ export const SqlEditor = ({
 													</span>
 												</div>
 											)}
-											<Result queryResult={fetcher.data?.result.result} />
+											<Result queryResult={queryResult} />
 										</div>
 									)}
 								</div>
@@ -241,7 +247,16 @@ export const SqlEditor = ({
 	);
 };
 
-export const Result = ({ queryResult }) => {
+export const Result = ({
+	queryResult,
+}: {
+	queryResult: {
+		// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+		rows: any[];
+		rowCount: number;
+		columns: string[];
+	};
+}) => {
 	const table = useReactTable({
 		data: queryResult?.rows,
 		columns: queryResult?.columns.map((key) => {

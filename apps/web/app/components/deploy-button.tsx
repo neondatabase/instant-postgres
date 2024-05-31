@@ -1,5 +1,5 @@
 import { Form } from "@remix-run/react";
-import { Turnstile } from "@marsidev/react-turnstile";
+import { Turnstile } from "@instant-postgres/turnstile";
 import { type CSSProperties, useState } from "react";
 import { cn } from "~/lib/cn";
 
@@ -12,7 +12,7 @@ export const DeployButton = ({
 	isLoading,
 	hasCreatedProject,
 }: DeployButtonProps) => {
-	const [token, setToken] = useState(null);
+	const [token, setToken] = useState<null | string>(null);
 
 	return (
 		<Form
@@ -137,7 +137,7 @@ export const DeployButton = ({
 			<Turnstile
 				className="hidden"
 				siteKey="0x4AAAAAAAa4q5vJcjGaJqL7"
-				onSuccess={setToken}
+				onSuccess={(token) => setToken(token)}
 			/>
 		</Form>
 	);

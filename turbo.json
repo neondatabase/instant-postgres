@@ -1,60 +1,47 @@
 {
-  "$schema": "https://turborepo.org/schema.json",
-  "globalDependencies": [
-    "**/.env"
-  ],
-  "pipeline": {
-    "topo": {
-      "dependsOn": [
-        "^topo"
-      ]
-    },
-    "build": {
-      "dependsOn": [
-        "^build"
-      ],
-      "outputs": [
-        "dist",
-        "build"
-      ]
-    },
-    "dev": {
-      "persistent": true,
-      "cache": false
-    },
-    "lint": {
-      "dependsOn": [
-        "^topo"
-      ]
-    },
-    "format": {
-      "dependsOn": [
-        "^topo"
-      ]
-    },
-    "lint:fix": {
-      "dependsOn": [
-        "^topo"
-      ]
-    },
-    "format:fix": {
-      "dependsOn": [
-        "^topo"
-      ]
-    },
-    "typecheck": {
-      "dependsOn": [
-        "^topo"
-      ],
-      "outputs": [
-        "node_modules/.cache/tsbuildinfo.json"
-      ]
-    },
-    "clean": {
-      "cache": false
-    },
-    "//#clean": {
-      "cache": false
-    }
-  }
+	"$schema": "https://turborepo.org/schema.json",
+	"globalDependencies": ["**/.env"],
+	"pipeline": {
+		"topo": {
+			"dependsOn": ["^topo"]
+		},
+		"build": {
+			"dependsOn": ["^build"],
+			"outputs": ["dist", "build"]
+		},
+		"db:generate": {
+			"outputs": ["migrations/**"],
+			"inputs": ["src/schema/**", "drizzle.config.ts"]
+		},
+		"db:migrate": {
+			"dependsOn": ["db:generate"],
+			"inputs": ["migrations/**"]
+		},
+		"dev": {
+			"persistent": true,
+			"cache": false
+		},
+		"lint": {
+			"dependsOn": ["^topo"]
+		},
+		"format": {
+			"dependsOn": ["^topo"]
+		},
+		"lint:fix": {
+			"dependsOn": ["^topo"]
+		},
+		"format:fix": {
+			"dependsOn": ["^topo"]
+		},
+		"typecheck": {
+			"dependsOn": ["^topo"],
+			"outputs": ["node_modules/.cache/tsbuildinfo.json"]
+		},
+		"clean": {
+			"cache": false
+		},
+		"//#clean": {
+			"cache": false
+		}
+	}
 }

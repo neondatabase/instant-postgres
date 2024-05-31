@@ -13,8 +13,8 @@ import { DeployButton } from "~/components/deploy-button";
 import { SqlEditor } from "~/components/sql-editor";
 import { Message } from "~/components/message";
 import { Intro } from "~/components/intro";
-import { ProjectInfo } from "~/components/project-info";
 import { minDelay } from "~/lib/min-delay";
+import { regions } from "@instant-postgres/neon/regions";
 
 export const meta: MetaFunction = () => SEO;
 
@@ -23,39 +23,33 @@ export const clientAction = async ({ request }: ClientActionFunctionArgs) => {
 	const cfTurnstileResponse = formdata.get("cf-turnstile-response") as string;
 
 	const API_URL = import.meta.env.VITE_API_URL;
-	try {
-		const client = hc<AppType>(API_URL, {
-			headers: {
-				"Content-Type": "application/json",
+
+	const client = hc<AppType>(API_URL, {
+		headers: {
+			"Content-Type": "application/json",
+		},
+		init: {
+			credentials: "include",
+		},
+	});
+
+	const res = await minDelay(
+		client.postgres.$post({
+			json: {
+				cfTurnstileResponse,
 			},
-			init: {
-				credentials: "include",
-			},
-		});
+		}),
+		800,
+	);
 
-		const res = await minDelay(
-			client.postgres.$post({
-				json: {
-					cfTurnstileResponse,
-				},
-			}),
-			800,
-		);
+	const data = await res.json();
 
-		const data = await res.json();
-
-		if (data.error) {
-			console.log(data.error.message);
-			return json({ error: data.error.message }, { status: 500 });
-		}
-
-		return json(data.result, {
-			headers: res.headers,
-		});
-	} catch (error) {
-		console.error(error);
-		return json({ error: error.message }, { status: 500 });
+	if (data.error) {
+		console.log(data.error.message);
+		return json(data, { status: 500 });
 	}
+
+	return json(data);
 };
 
 export default function Index() {
@@ -63,10 +57,13 @@ export default function Index() {
 	const isLoading = navigation.state !== "idle";
 
 	const actionData = useActionData<typeof clientAction>();
-	const hasCreatedProject = actionData?.hasCreatedProject ?? false;
-	const connectionUri = actionData?.connectionUri ?? "";
-	const timeToProvision = actionData?.timeToProvision ?? "";
-	const project = actionData?.project ?? {};
+
+	const hasCreatedProject = actionData?.result?.hasCreatedProject ?? false;
+	const connectionUri = actionData?.result?.connectionUri ?? "";
+	const timeToProvision = actionData?.result?.timeToProvision ?? 0;
+	const project = actionData?.result?.project;
+	const regionId = project?.region_id as keyof typeof regions;
+	const region = regions[regionId]?.name;
 
 	return (
 		<div className="bg-black min-h-lvh px-6 pt-24 lg:px-8 md:px-4 w-full">
@@ -82,10 +79,9 @@ export default function Index() {
 					<div className="space-y-3 w-full">
 						<div className="h-4">
 							{hasCreatedProject && (
-								<ProjectInfo
-									project={project}
-									timeToProvision={timeToProvision}
-								/>
+								<p className="animate-in fade-in slide-in-from-bottom font-mono text-xs leading-none tracking-extra-tight text-white tracking-extra-tight opacity-90">
+									Provisioned in {timeToProvision} ms, {region}
+								</p>
 							)}
 						</div>
 						<ConnectionString
