@@ -252,7 +252,6 @@ const route = app.post(
 		);
 	},
 );
-
 export type AppType = typeof route;
 
 export default app;
