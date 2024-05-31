@@ -26,5 +26,3 @@
 Improvements:
 - provision postgres based on the user's location
 - Refactor the code
-
-
