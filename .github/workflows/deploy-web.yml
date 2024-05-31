@@ -23,8 +23,9 @@ jobs:
       - run: bun run build --filter=web
 
       - name: Deploy
-        uses: cloudflare/wrangler-action@v3
+        uses: cloudflare/pages-action@v1
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deploy ../../apps/web/build --project-name=instant-postgres
+          projectName: instant-postgres
+          directory: apps/web/build
