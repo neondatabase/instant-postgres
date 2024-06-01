@@ -29,7 +29,7 @@ jobs:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           preCommands: echo ${{ secrets }} > secrets.json
-          command: wrangler pages secret bulk ./secrets.json
+          command: wrangler pages secret bulk secrets.json
 
 
       - name: Deploy
