@@ -24,10 +24,7 @@ jobs:
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          preCommands: |
-            echo '{
-              "VITE_API_URL": "${{ secrets.VITE_API_URL }}"
-            }' > secrets.json
+          preCommands: echo ${{ toJson(secrets) }} > secrets.json
           command: wrangler pages secret bulk ./secrets.json
 
 
