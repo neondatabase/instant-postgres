@@ -30,7 +30,7 @@ jobs:
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           preCommands: echo ${{ toJson(secrets) }} > secrets.json
           command: pages secret bulk secrets.json
-          wranglerVersion: 3.6.1
+          wranglerVersion: 3.58.0
 
 
       - name: Deploy
