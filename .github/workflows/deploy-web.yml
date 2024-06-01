@@ -6,7 +6,10 @@ on:
       - 'main'
     paths:
         - 'apps/web/**'
-      
+
+env:
+  VITE_API_URL: ${{ secrets.VITE_API_URL }}
+  
 jobs:
   deploy-production:
     runs-on: ubuntu-latest
@@ -25,7 +28,7 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          preCommands: echo ${{ toJson(secrets) }} > secrets.json
+          preCommands: echo ${{ secrets }} > secrets.json
           command: wrangler pages secret bulk ./secrets.json
 
 
