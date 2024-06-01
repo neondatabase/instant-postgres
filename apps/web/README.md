@@ -16,7 +16,8 @@
   - Add share buttons for Twitter, LinkedIn, HN
 - API:
   - rate-limiting
-  - automatically delete the database after 5 minutes
+  - automatically delete th
+  - e database after 5 minutes
   - Add Turnstile 
 - CI/CD
   - Preview Deployments with Neon
