@@ -24,6 +24,7 @@ jobs:
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           preCommands: echo ${{ toJson(secrets) }} > secrets.json
           command: wrangler pages secret bulk ./secrets.json
 
