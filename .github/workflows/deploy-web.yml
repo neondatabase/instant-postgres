@@ -22,9 +22,10 @@ jobs:
         run: bun install
 
       - run: bun run build --filter=web
-      
-      - run: echo ${{ toJson(secrets) }} > secrets.json
 
+      - run: |
+          echo "{\"VITE_API_URL\": \"$VITE_API_URL\"}" > secrets.json
+      
       - name: Upload secrets
         uses: cloudflare/wrangler-action@v3.6.1
         with:
