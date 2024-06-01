@@ -23,12 +23,13 @@ jobs:
 
       - run: bun run build --filter=web
       
+      - run: echo ${{ toJson(secrets) }} > secrets.json
+
       - name: Upload secrets
         uses: cloudflare/wrangler-action@v3.6.1
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          preCommands: echo ${{ toJson(secrets) }} > secrets.json
           command: pages secret bulk secrets.json
           wranglerVersion: 3.58.0
 
