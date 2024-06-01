@@ -72,7 +72,7 @@ export default function Index() {
 						Postgres in under a second
 					</h1>
 					<h2 className="text-balance mt-[18px] text-xl font-light tracking-extra-tight text-[#AFB1B6] xl:mt-4 xl:text-lg lg:mt-3 lg:text-base md:mt-2">
-						Instantly provison a Postgres database on
+						Instantly provison a Postgres database on{" "}
 						<a
 							className="text-white underline hover:no-underline underline-offset-4"
 							href="https://console.neon.tech/?ref=instantPostgres"
