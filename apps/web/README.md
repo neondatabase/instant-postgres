@@ -26,8 +26,7 @@
   - Create a dedicated Neon account
 
 Improvements:
-- provision p
-- ostgres based on the user's location
+- provision postgres based on the user's location
 - Refactor the code
 
 
