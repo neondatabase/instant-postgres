@@ -11,7 +11,6 @@
   - Show errors if any from action
   - Code editor:
     - Show how long the query took to run
-    - 
     - Run queries
     - Show results table if any
   - Add share buttons for Twitter, LinkedIn, HN
