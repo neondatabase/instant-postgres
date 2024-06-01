@@ -40,7 +40,7 @@ jobs:
         with:
           apiToken: $CLOUDFLARE_API_TOKEN
           preCommands: echo ${{ (toJson(secrets)) }} > secrets.json
-          command: wrangler pages secret bulk secrets.json
+          command: pages secret bulk secrets.json
 
       - name: Deploy
         uses: AdrianGonz97/refined-cf-pages-action@v1
