@@ -42,4 +42,7 @@ jobs:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           projectName: instant-postgres-api
-          directory: ./apps/api/dist
+          directory: ./dist
+          workingDirectory: ./apps/api
+          deploymentName: api
+          branch: main
