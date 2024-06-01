@@ -6,10 +6,7 @@ on:
       - 'main'
     paths:
         - 'apps/web/**'
-        
-env:
-  VITE_API_URL: http://localhost:8788
-
+      
 jobs:
   deploy-production:
     runs-on: ubuntu-latest
@@ -22,6 +19,17 @@ jobs:
         run: bun install
 
       - run: bun run build --filter=web
+      
+      - name: Upload secrets
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          preCommands: |
+            echo '{
+              "VITE_API_URL": "${{ secrets.VITE_API_URL }}"
+            }' > secrets.json
+          command: wrangler pages secret bulk ./secrets.json
+
 
       - name: Deploy
         uses: AdrianGonz97/refined-cf-pages-action@v1
