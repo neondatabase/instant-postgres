@@ -42,7 +42,6 @@ jobs:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           projectName: instant-postgres
-          directory: build/client
-          workingDirectory: ./apps/web
+          directory: ./apps/web/build/client
           deploymentName: web
           branch: main
