@@ -31,7 +31,7 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages secret bulk secrets.json
+          command: pages secret bulk secrets.json --project-name=instant-postgres
           wranglerVersion: 3.58.0
 
 
