@@ -59,7 +59,7 @@ jobs:
       - name: Deploy
         uses: AdrianGonz97/refined-cf-pages-action@v1
         with:
-          githubToken: ${{ secrets.GITHUB_TOKEN }}
+          githubToken: ${{ secrets.GH_TOKEN }}
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           projectName: instant-postgres-api
