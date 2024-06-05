@@ -9,14 +9,18 @@ export default defineConfig({
 	plugins: [
 		remixCloudflareDevProxy(),
 		remix({
-			basename: "/demos/instant-postgres",
+			basename:
+				process.env.NODE_ENV === "production" ? "/demos/instant-postgres" : "/",
 		}),
 		tsconfigPaths(),
 	],
 	server: {
 		port: 3000,
 	},
-	base: "/demos/instant-postgres/",
+	base:
+		process.env.NODE_ENV === "production"
+			? "https://neon.tech/demos/instant-postgres/"
+			: "/",
 	ssr: {
 		noExternal: [
 			"@uiw/react-codemirror",
