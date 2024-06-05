@@ -14,7 +14,7 @@ tsconfig.tsbuildinfo
 
 logs
 _.log
-npm-debug.log_
+
 
 
 # Diagnostic reports (https://nodejs.org/api/report.html)
@@ -70,9 +70,6 @@ web_modules/
 
 \*.tsbuildinfo
 
-# Optional npm cache directory
-
-.npm
 
 # Optional eslint cache
 
