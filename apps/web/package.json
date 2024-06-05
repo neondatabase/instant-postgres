@@ -4,7 +4,7 @@
 	"sideEffects": false,
 	"type": "module",
 	"scripts": {
-		"build": "remix vite:build",
+		"build": "remix vite:build --base=/demos/instant-postgres/",
 		"cf-typegen": "wrangler types",
 		"deploy": "bun run build && wrangler pages deploy ./build/client",
 		"dev": "remix vite:dev",
