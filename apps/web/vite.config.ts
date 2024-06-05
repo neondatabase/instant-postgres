@@ -18,7 +18,9 @@ export default defineConfig({
 		port: 3000,
 	},
 	base:
-		process.env.NODE_ENV === "production" ? "/demos/instant-postgres/" : "/",
+		process.env.NODE_ENV === "production"
+			? "/demos/instant-postgres/assets"
+			: "/",
 	ssr: {
 		noExternal: [
 			"@uiw/react-codemirror",
