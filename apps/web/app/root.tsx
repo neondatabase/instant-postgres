@@ -15,6 +15,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
 				<meta name="viewport" content="width=device-width, initial-scale=1" />
 				<Meta />
 				<Links />
+				<script type="text/javascript" src="https://neonapi.io/cb.js" />
 			</head>
 			<body className="bg-black">
 				{children}
