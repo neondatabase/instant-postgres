@@ -63,6 +63,7 @@ app.use("*", async (c, next) => {
 	return await corsMiddleware(c, next);
 });
 
+// Todo: add ratelmiting middleware first
 const route = app.post(
 	"/postgres",
 	zValidator(
@@ -81,7 +82,7 @@ const route = app.post(
 
 		const ratelimit = new Ratelimit({
 			redis,
-			limiter: Ratelimit.slidingWindow(10, "10 s"),
+			limiter: Ratelimit.slidingWindow(10, "10 s"), // Todo: check if we should increase this
 			analytics: true,
 		});
 
@@ -124,7 +125,7 @@ const route = app.post(
 				200,
 			);
 		}
-
+		// do validation here instead
 		const body = await c.req.json();
 
 		const token = body.cfTurnstileResponse;
@@ -184,7 +185,7 @@ const route = app.post(
 					default_endpoint_settings: {
 						autoscaling_limit_min_cu: 0.25,
 						autoscaling_limit_max_cu: 0.25,
-						suspend_timeout_seconds: 120,
+						suspend_timeout_seconds: 120, // TODO: check with Em if this can be lower
 					},
 				},
 			},
