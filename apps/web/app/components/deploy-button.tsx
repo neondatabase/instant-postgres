@@ -24,7 +24,7 @@ export const DeployButton = ({
 				disabled={!token || isLoading || hasCreatedProject}
 				className={cn(
 					!token ? "cursor-wait opacity-70 animate-none" : "animate-shimmer",
-					"inline-flex h-11 px-6 py-3 items-center justify-center rounded-[10px] animate-shimmer border border-white/10 bg-[linear-gradient(110deg,#000,45%,#1e2631,55%,#000103)] bg-[length:200%_100%] font-medium text-white transition-colors",
+					"inline-flex h-11 px-6 py-3 items-center justify-center rounded-[10px] animate-shimmer border border-white/10 bg-[linear-gradient(110deg,#000,45%,#191919,55%,#000103)] bg-[length:200%_100%] font-medium text-white transition-colors",
 				)}
 			>
 				<span className="flex space-x-2 items-center whitespace-pre-wrap text-center text-base font-medium leading-none tracking-tight text-white from-white to-slate-900/10 ">
