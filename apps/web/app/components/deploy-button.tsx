@@ -1,6 +1,6 @@
 import { Form } from "@remix-run/react";
 import { Turnstile } from "@instant-postgres/turnstile";
-import { type CSSProperties, useState } from "react";
+import { useState } from "react";
 import { cn } from "~/lib/cn";
 
 type DeployButtonProps = {
@@ -23,7 +23,7 @@ export const DeployButton = ({
 				type="submit"
 				disabled={!token || isLoading || hasCreatedProject}
 				className={cn(
-					!token ? "cursor-wait opacity-70 animate-none" : "animate-shimmer",
+					"cursor-pointer disabled:cursor-not-allowed disabled:opacity-70 disabled:animate-none animate-shimmer",
 					"inline-flex h-11 px-6 py-3 items-center justify-center rounded-[10px] animate-shimmer border border-white/10 bg-[linear-gradient(110deg,#000,45%,#191919,55%,#000103)] bg-[length:200%_100%] font-medium text-white transition-colors",
 				)}
 			>
