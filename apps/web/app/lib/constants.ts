@@ -11,8 +11,8 @@ export const SEO = [
 		property: "og:description",
 		content: "Provision a Postgres database on Neon in seconds.",
 	},
-	{ property: "og:image", content: "https://example.com/og-image.jpg" }, // Replace with your image URL
-	{ property: "og:url", content: "https://example.com" }, // Replace with your URL
+	{ property: "og:image", content: "./instant-postgres.png" },
+	{ property: "og:url", content: "https://neon.tech/demos/instant-postgres" },
 	{ property: "og:type", content: "website" },
 
 	// Twitter meta tags
@@ -22,6 +22,6 @@ export const SEO = [
 		name: "twitter:description",
 		content: "Provision a Postgres database on Neon in seconds.",
 	},
-	{ name: "twitter:image", content: "https://example.com/twitter-image.jpg" }, // Replace with your image URL
-	{ name: "twitter:site", content: "@yourtwitterhandle" }, // Replace with your Twitter handle
+	{ name: "twitter:image", content: "./instant-postgres.png" },
+	{ name: "twitter:site", content: "@neondatabase" },
 ];
