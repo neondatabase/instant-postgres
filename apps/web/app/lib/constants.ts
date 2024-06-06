@@ -14,7 +14,7 @@ export const SEO = [
 		property: "og:description",
 		content: "Provision a Postgres database on Neon in seconds.",
 	},
-	{ property: "og:image", content: coverImage },
+	{ property: "og:image", content: `https://neon.tech${coverImage}` },
 	{ property: "og:url", content: "https://neon.tech/demos/instant-postgres" },
 	{ property: "og:type", content: "website" },
 
@@ -25,6 +25,6 @@ export const SEO = [
 		name: "twitter:description",
 		content: "Provision a Postgres database on Neon in seconds.",
 	},
-	{ name: "twitter:image", content: coverImage },
+	{ name: "twitter:image", content: `https://neon.tech${coverImage}` },
 	{ name: "twitter:site", content: "@neondatabase" },
 ];
