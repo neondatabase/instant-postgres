@@ -50,7 +50,12 @@ const app = new Hono<{ Bindings: Bindings }>();
 
 app.use("*", async (c, next) => {
 	const corsMiddleware = cors({
-		origin: c.env.APP_URL.replace(/\/$/, ""),
+		origin: [
+			c.env.APP_URL.replace(/\/$/, ""),
+			"https://neon.tech",
+			"https://instant-postgres.mahmoudw.com",
+			"https://instant-postgres.pages.dev",
+		],
 		allowHeaders: ["Origin", "Content-Type", "Authorization"],
 		allowMethods: ["GET", "OPTIONS", "POST", "PUT", "DELETE"],
 		credentials: true,
