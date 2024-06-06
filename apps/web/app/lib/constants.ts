@@ -1,3 +1,4 @@
+import coverImage from "../../public/instant-postgres.png";
 export const SEO = [
 	{ title: "Neon | Instant Postgres" },
 	{
@@ -11,7 +12,7 @@ export const SEO = [
 		property: "og:description",
 		content: "Provision a Postgres database on Neon in seconds.",
 	},
-	{ property: "og:image", content: "./instant-postgres.png" },
+	{ property: "og:image", content: coverImage },
 	{ property: "og:url", content: "https://neon.tech/demos/instant-postgres" },
 	{ property: "og:type", content: "website" },
 
@@ -22,6 +23,6 @@ export const SEO = [
 		name: "twitter:description",
 		content: "Provision a Postgres database on Neon in seconds.",
 	},
-	{ name: "twitter:image", content: "./instant-postgres.png" },
+	{ name: "twitter:image", content: coverImage },
 	{ name: "twitter:site", content: "@neondatabase" },
 ];
