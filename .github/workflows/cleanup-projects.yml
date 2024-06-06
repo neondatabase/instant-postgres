@@ -19,4 +19,4 @@ jobs:
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
           NEON_API_KEY: ${{ secrets.NEON_API_KEY }}
-        run: bun run packages/db/cleanup-projects.ts
+        run: bun run packages/db/src/cleanup-projects.ts

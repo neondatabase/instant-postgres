@@ -1,8 +1,8 @@
 import { neon } from "@instant-postgres/neon";
-import { type Project, projects } from "./src/schema";
+import { type Project, projects } from "./schema";
 import type { NeonDriver } from "drizzle-orm/neon-serverless";
 import { and, sql } from "drizzle-orm";
-import { db } from "./src";
+import { db } from ".";
 
 const DATABASE_URL = process.env.DATABASE_URL;
 const NEON_API_KEY = process.env.NEON_API_KEY;
