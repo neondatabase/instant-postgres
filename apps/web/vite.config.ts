@@ -10,7 +10,7 @@ export default defineConfig({
 	plugins: [
 		remixCloudflareDevProxy(),
 		remix({
-			// basename: "/demos/instant-postgres", // Adjusted to match the base path
+			basename: "/demos/instant-postgres", // Adjusted to match the base path
 		}),
 		tsconfigPaths(),
 	],

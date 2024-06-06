@@ -10,7 +10,7 @@
 		"dev": "remix vite:dev",
 		"format": "biome format ./app --write",
 		"lint": "biome lint ./app --apply",
-		"preview": "bun run build && wrangler pages dev",
+		"preview": "bun run build  && wrangler pages dev ./build/client",
 		"start": "wrangler pages dev ./build/client",
 		"typecheck": "tsc --noEmit"
 	},
