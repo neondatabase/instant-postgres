@@ -11,6 +11,7 @@ export default defineConfig({
 		remixCloudflareDevProxy(),
 		remix({
 			basename: "/demos/instant-postgres", // Adjusted to match the base path
+			buildDirectory: "../web/build",
 		}),
 		tsconfigPaths(),
 	],
