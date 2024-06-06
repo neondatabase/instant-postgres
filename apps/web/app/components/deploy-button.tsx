@@ -22,36 +22,11 @@ export const DeployButton = ({
 			<button
 				type="submit"
 				disabled={!token || isLoading || hasCreatedProject}
-				style={
-					{
-						"--spread": "90deg",
-						"--shimmer-color": "#00e599",
-						"--radius": "10px",
-						"--speed": "3s",
-						"--cut": "0.05em",
-						"--bg": "#000",
-					} as CSSProperties
-				}
 				className={cn(
-					"group relative z-0 flex cursor-pointer items-center justify-center overflow-hidden whitespace-nowrap border border-white/10 px-6 py-3 text-white [background:var(--bg)] [border-radius:var(--radius)]",
-					"transform-gpu transition-transform duration-300 ease-in-out active:translate-y-[1px]",
+					!token ? "cursor-wait opacity-70 animate-none" : "animate-shimmer",
+					"inline-flex h-11 px-6 py-3 items-center justify-center rounded-[10px] animate-shimmer border border-white/10 bg-[linear-gradient(110deg,#000,45%,#1e2631,55%,#000103)] bg-[length:200%_100%] font-medium text-white transition-colors",
 				)}
 			>
-				{/* spark container */}
-				{token && !hasCreatedProject && (
-					<div
-						className={cn(
-							"-z-30 blur-[2px]",
-							"absolute inset-0 overflow-visible [container-type:size]",
-						)}
-					>
-						{/* spark */}
-						<div className="absolute inset-0 h-[100cqh] animate-slide [aspect-ratio:1] [border-radius:0] [mask:none]">
-							{/* spark before */}
-							<div className="animate-spin-around absolute inset-[-100%] w-auto rotate-0 [background:conic-gradient(from_calc(270deg-(var(--spread)*0.5)),transparent_0,var(--shimmer-color)_var(--spread),transparent_var(--spread))] [translate:0_0]" />
-						</div>
-					</div>
-				)}
 				<span className="flex space-x-2 items-center whitespace-pre-wrap text-center text-base font-medium leading-none tracking-tight text-white from-white to-slate-900/10 ">
 					{isLoading ? (
 						<svg
@@ -109,29 +84,6 @@ export const DeployButton = ({
 					)}
 					Deploy Postgres
 				</span>
-				{/* Highlight */}
-				<div
-					className={cn(
-						"insert-0 absolute h-full w-full",
-
-						"rounded-[10px] px-4 py-1.5 text-sm font-medium shadow-[inset_0_-8px_10px_#00e5991f]",
-
-						// transition
-						"transform-gpu transition-all duration-300 ease-in-out",
-
-						// on hover
-						"group-hover:shadow-[inset_0_-6px_10px_#00e5993f]",
-
-						// on click
-						"group-active:shadow-[inset_0_-10px_10px_#00e5993f]",
-					)}
-				/>
-				{/* backdrop */}
-				<div
-					className={cn(
-						"absolute -z-20 [background:var(--bg)] [border-radius:var(--radius)] [inset:var(--cut)]",
-					)}
-				/>
 			</button>
 
 			<Turnstile

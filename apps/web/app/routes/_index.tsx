@@ -12,7 +12,6 @@ import { ConnectionString } from "~/components/connection-string";
 import { DeployButton } from "~/components/deploy-button";
 import { SqlEditor } from "~/components/sql-editor";
 import { Message } from "~/components/message";
-import { minDelay } from "~/lib/min-delay";
 import { regions } from "@instant-postgres/neon/regions";
 
 export const meta: MetaFunction = () => SEO;
