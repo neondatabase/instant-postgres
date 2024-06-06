@@ -23,7 +23,9 @@ export const clientAction = async ({ request }: ClientActionFunctionArgs) => {
 
 	const API_URL = import.meta.env.VITE_API_URL;
 
-	console.log({ API_URL });
+	const API_URL_2 = process.env.VITE_API_URL;
+
+	console.log({ API_URL, API_URL_2 });
 
 	const client = hc<AppType>(API_URL, {
 		headers: {
