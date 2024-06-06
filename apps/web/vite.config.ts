@@ -18,6 +18,7 @@ export default defineConfig({
 	server: {
 		port: 3000,
 	},
+	publicDir: "../web/public",
 	ssr: {
 		noExternal: [
 			"@uiw/react-codemirror",
