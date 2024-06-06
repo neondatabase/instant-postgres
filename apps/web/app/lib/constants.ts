@@ -1,5 +1,4 @@
-const coverImage = new URL("../../public/instant-postgres.png", import.meta.url)
-	.href;
+import coverImage from "../../public/instant-postgres.png";
 
 export const SEO = [
 	{ title: "Neon | Instant Postgres" },
