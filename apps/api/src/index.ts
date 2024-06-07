@@ -3,9 +3,7 @@ import { getSignedCookie, setSignedCookie } from "hono/cookie";
 import { cors } from "hono/cors";
 import { db } from "@instant-postgres/db";
 import { projects } from "@instant-postgres/db/schema";
-import { neon, type schema } from "@instant-postgres/neon";
-import { Ratelimit } from "@upstash/ratelimit";
-import { Redis } from "@upstash/redis/cloudflare";
+import { neon } from "@instant-postgres/neon";
 import type { TurnstileServerValidationResponse } from "@instant-postgres/turnstile";
 import {
 	findClosestRegion,
@@ -13,38 +11,13 @@ import {
 } from "@instant-postgres/neon/regions";
 import { z } from "zod";
 import { zValidator } from "@hono/zod-validator";
-
-type Bindings = {
-	DATABASE_URL: string;
-	NEON_API_KEY: string;
-	COOKIE_SECRET: string;
-	APP_URL: string;
-	CLOUDFLARE_TURNSTILE_SECRET_KEY: string;
-	UPSTASH_REDIS_REST_URL: string;
-	UPSTASH_REDIS_REST_TOKEN: string;
-};
-
-type SuccessResponse<ResultType> = {
-	result: ResultType;
-	success: true;
-	error: null;
-};
-
-type ErrorResponse = {
-	result: null;
-	success: false;
-	error: {
-		message: string;
-		code: string;
-	};
-};
-
-type ProjectProvision = {
-	connectionUri: string | undefined;
-	project: schema.components["schemas"]["Project"];
-	hasCreatedProject: boolean;
-	timeToProvision: number;
-};
+import type {
+	Bindings,
+	ErrorResponse,
+	ProjectProvision,
+	SuccessResponse,
+} from "./types";
+import { ratelimiter } from "./middleware";
 
 const app = new Hono<{ Bindings: Bindings }>();
 
@@ -63,9 +36,9 @@ app.use("*", async (c, next) => {
 	return await corsMiddleware(c, next);
 });
 
-// Todo: add ratelmiting middleware first
 const route = app.post(
 	"/postgres",
+	ratelimiter,
 	zValidator(
 		"json",
 		z.object({
@@ -73,39 +46,9 @@ const route = app.post(
 		}),
 	),
 	async (c) => {
+		const responseStartTime = Date.now();
+
 		const ip = c.req.raw.headers.get("CF-Connecting-IP") as string;
-
-		const redis = new Redis({
-			url: c.env.UPSTASH_REDIS_REST_URL,
-			token: c.env.UPSTASH_REDIS_REST_TOKEN,
-		});
-
-		const ratelimit = new Ratelimit({
-			redis,
-			limiter: Ratelimit.slidingWindow(10, "10 s"), // Todo: check if we should increase this
-			analytics: true,
-		});
-
-		const { success, limit, reset, remaining } = await ratelimit.limit(ip);
-
-		if (!success) {
-			return c.json<ErrorResponse, 429>(
-				{
-					result: null,
-					success: false,
-					error: {
-						message: "Rate limit exceeded",
-						code: "429",
-					},
-				},
-				429,
-				{
-					"X-RateLimit-Limit": limit.toString(),
-					"X-RateLimit-Remaining": remaining.toString(),
-					"X-RateLimit-Reset": reset.toString(),
-				},
-			);
-		}
 
 		const projectData = await getSignedCookie(
 			c,
@@ -125,7 +68,7 @@ const route = app.post(
 				200,
 			);
 		}
-		// do validation here instead
+
 		const body = await c.req.json();
 
 		const token = body.cfTurnstileResponse;
@@ -185,7 +128,7 @@ const route = app.post(
 					default_endpoint_settings: {
 						autoscaling_limit_min_cu: 0.25,
 						autoscaling_limit_max_cu: 0.25,
-						suspend_timeout_seconds: 120, // TODO: check with Em if this can be lower
+						suspend_timeout_seconds: 120,
 					},
 				},
 			},
@@ -248,9 +191,11 @@ const route = app.post(
 			},
 		);
 
+		const responseTime = Date.now() - responseStartTime;
+
 		return c.json<SuccessResponse<ProjectProvision>, 201>(
 			{
-				result: newProjectData,
+				result: { ...newProjectData, responseTime },
 				success: true,
 				error: null,
 			},

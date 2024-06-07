@@ -10,7 +10,7 @@
 		"build": "esbuild --bundle src/index.ts --format=esm --outfile=dist/_worker.js",
 		"deploy": "wrangler pages deploy dist",
 		"format": "biome format --write  ./src",
-		"lint": "biome lint --apply ./src",
+		"lint": "biome lint --write ./src",
 		"start": "wrangler dev",
 		"typecheck": "tsc --noEmit"
 	},

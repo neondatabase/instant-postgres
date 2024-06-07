@@ -6,11 +6,10 @@ import { defineConfig } from "vite";
 import tsconfigPaths from "vite-tsconfig-paths";
 
 export default defineConfig({
-	// base: "/demos/instant-postgres/",
 	plugins: [
 		remixCloudflareDevProxy(),
 		remix({
-			basename: "/demos/instant-postgres",
+			basename: process.env.NODE_ENV === "production" ? "/demos/instant-postgres" : "/",
 		}),
 		tsconfigPaths(),
 	],
@@ -18,7 +17,7 @@ export default defineConfig({
 		port: 3000,
 	},
 	build: {
-		assetsDir: "demos/instant-postgres/assets",
+		assetsDir: process.env.NODE_ENV === "production" ? "demos/instant-postgres/assets" : "assets", 
 		outDir: "build",
 	},
 	ssr: {

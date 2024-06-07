@@ -12,7 +12,7 @@
 	},
 	"scripts": {
 		"clean": "rm -rf .turbo node_modules",
-		"lint": "biome lint --apply .",
+		"lint": "biome lint --write .",
 		"format": "biome format --write .",
 		"typecheck": "tsc --noEmit",
 		"typegen": "bunx openapi-typescript https://neon.tech/api_spec/release/v2.json -o ./src/schema.ts"

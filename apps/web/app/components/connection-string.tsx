@@ -3,16 +3,14 @@ import { Button } from "./ui/button";
 import { useScramble } from "use-scramble";
 import { cn } from "~/lib/cn";
 import { maskPassword } from "~/lib/mask-password";
+import type { clientAction } from "~/routes/actions.deploy";
+import { useFetcher } from "@remix-run/react";
 
-type ConnectionStringProps = {
-	hasCreatedProject: boolean;
-	connectionUri: string;
-};
+export const ConnectionString = () => {
+	const fetcher = useFetcher<typeof clientAction>({ key: "deploy" });
+	const hasCreatedProject = fetcher?.data?.result?.hasCreatedProject ?? false;
+	const connectionUri = fetcher?.data?.result?.connectionUri ?? "";
 
-export const ConnectionString = ({
-	hasCreatedProject,
-	connectionUri,
-}: ConnectionStringProps) => {
 	const clipboard = useClipboard({
 		copiedTimeout: 600,
 	});

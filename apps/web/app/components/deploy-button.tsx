@@ -1,23 +1,23 @@
-import { Form } from "@remix-run/react";
+import { useFetcher } from "@remix-run/react";
 import { Turnstile } from "@instant-postgres/turnstile";
 import { useState } from "react";
 import { cn } from "~/lib/cn";
+import type { clientAction } from "~/routes/actions.deploy";
 
-type DeployButtonProps = {
-	isLoading: boolean;
-	hasCreatedProject: boolean;
-};
+const CLOUDFLARE_TURNSTILE_SITE_KEY = import.meta.env
+	.VITE_CLOUDFLARE_TURNSTILE_SITE_KEY;
 
-export const DeployButton = ({
-	isLoading,
-	hasCreatedProject,
-}: DeployButtonProps) => {
+export const DeployButton = () => {
 	const [token, setToken] = useState<null | string>(null);
+	const fetcher = useFetcher<typeof clientAction>({ key: "deploy" });
+	const isLoading = fetcher.state !== "idle";
+	const hasCreatedProject = fetcher?.data?.result?.hasCreatedProject ?? false;
 
 	return (
-		<Form
+		<fetcher.Form
 			method="POST"
 			className="flex flex-col md:flex-row gap-3 md:items-center"
+			action="/actions/deploy"
 		>
 			<button
 				type="submit"
@@ -91,6 +91,6 @@ export const DeployButton = ({
 				siteKey="0x4AAAAAAAa4q5vJcjGaJqL7"
 				onSuccess={(token) => setToken(token)}
 			/>
-		</Form>
+		</fetcher.Form>
 	);
 };

@@ -9,46 +9,46 @@ type SuccessResponse<ResultType> = {
 	result: ResultType;
 	success: true;
 	error: null;
+	queryTime: number;
 };
 
 type ErrorResponse = {
 	result: null;
 	success: false;
 	error: string;
+	queryTime: number;
 };
 
 export const runQuery = async ({ connectionUri, query }: queryOptions) => {
+	const executionTime = Date.now();
+
 	try {
 		const client = new Pool({
 			connectionString: connectionUri,
 		});
 
-		const { rows, rowCount, fields } = await client.query(query);
+		const result = await client.query(query);
 
 		client.end();
 
-		const response: SuccessResponse<{
-			// biome-ignore lint/suspicious/noExplicitAny: <explanation>
-			rows: any[];
-			rowCount: number;
-			columns: string[];
-		}> = {
-			result: {
-				rows: rows ?? [],
-				rowCount: rowCount ?? 0,
-				columns: fields?.map((field) => field.name) ?? [],
-			},
+		const queryTime = Date.now() - executionTime;
+
+		const response: SuccessResponse<typeof result> = {
+			result,
+			queryTime,
 			success: true,
 			error: null,
 		};
+
 		return response;
 	} catch (error) {
-		console.log("error", error);
+		const queryTime = Date.now() - executionTime;
 
 		const response: ErrorResponse = {
 			result: null,
 			success: false,
 			error: `${error}`,
+			queryTime,
 		};
 
 		return response;
