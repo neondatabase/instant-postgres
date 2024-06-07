@@ -43,12 +43,12 @@ const RequestInfo = () => {
 						</Tooltip.Trigger>
 						<Tooltip.Portal>
 							<Tooltip.Content
-								className="text-black data-[state=delayed-open]:data-[side=top]:animate-slideDownAndFade data-[state=delayed-open]:data-[side=right]:animate-slideLeftAndFade data-[state=delayed-open]:data-[side=left]:animate-slideRightAndFade data-[state=delayed-open]:data-[side=bottom]:animate-slideUpAndFade text-violet11 select-none rounded-[10px] bg-white px-[15px] py-[10px] text-xs leading-none shadow-[hsl(206_22%_7%_/_35%)_0px_10px_38px_-10px,_hsl(206_22%_7%_/_20%)_0px_10px_20px_-15px] will-change-[transform,opacity]"
-								sideOffset={5}
+								className="max-w-xs text-center text-white data-[state=delayed-open]:data-[side=top]:animate-slideDownAndFade data-[state=delayed-open]:data-[side=right]:animate-slideLeftAndFade data-[state=delayed-open]:data-[side=left]:animate-slideRightAndFade data-[state=delayed-open]:data-[side=bottom]:animate-slideUpAndFade text-violet11 select-none rounded-[10px] bg-[#222222] px-[15px] py-[10px] text-xs  shadow-[hsl(206_22%_7%_/_35%)_0px_10px_38px_-10px,_hsl(206_22%_7%_/_20%)_0px_10px_20px_-15px] will-change-[transform,opacity]"
+								sideOffset={0}
 							>
 								Actual time taken to provision the database. It doesn't
 								represent the total round-trip time.
-								<Tooltip.Arrow className="fill-white" />
+								<Tooltip.Arrow className="fill-[#222222]" />
 							</Tooltip.Content>
 						</Tooltip.Portal>
 					</Tooltip.Root>
