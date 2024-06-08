@@ -1,4 +1,3 @@
-import * as Tabs from "@radix-ui/react-tabs";
 import {
 	Table,
 	TableBody,
@@ -16,6 +15,7 @@ import {
 import { Button } from "~/components/ui/button";
 import { useFetcher } from "@remix-run/react";
 import type { clientAction as queryAction } from "~/routes/actions.query";
+import { Tab, TabList, TabPanel, Tabs } from "react-aria-components";
 
 export const Results = () => {
 	const queryFetcher = useFetcher<typeof queryAction>({ key: "query" });
@@ -52,33 +52,27 @@ export const Results = () => {
 	}
 
 	return (
-		<Tabs.Root
-			defaultChecked
-			className="flex flex-col w-full mt-5"
-			defaultValue={"0"}
-		>
-			<Tabs.List className="flex items-center gap-5 w-full border-b border-b-white/10">
+		<Tabs defaultSelectedKey={"0"} className="flex flex-col w-full mt-5">
+			<TabList className="flex items-center gap-5 w-full border-b border-b-white/10 group">
 				{results.map(({ result }, i) => {
 					return (
-						<Tabs.Trigger
-							className="data-[state=active]:border-b-white border-b border-b-transparent py-3"
-							// biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
-							key={i}
-							value={`${i}`}
+						<Tab
+							key={i.toString()}
+							id={i.toString()}
+							className="border-b border-b-transparent py-3 data-[focus-visible]:ring-2 data-[focus-visible]:ring-white data-[selected]:border-b-white "
 						>
 							{i}: {result?.command || "Error"}
-						</Tabs.Trigger>
+						</Tab>
 					);
 				})}
-			</Tabs.List>
+			</TabList>
 
 			{results.map(({ success, error, queryTime, result }, i) => {
 				return (
-					<Tabs.Content
-						// biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
-						key={i}
-						className="w-full mt-8 space-y-5 outline-none focus:shadow-[0_0_0_2px] focus:shadow-black"
-						value={`${i}`}
+					<TabPanel
+						key={i.toString()}
+						id={i.toString()}
+						className="grow w-full mt-8 space-y-5 outline-none focus:shadow-[0_0_0_2px] focus:shadow-black"
 					>
 						<div className="w-full flex items-center space-x-2">
 							{success ? (
@@ -136,10 +130,10 @@ export const Results = () => {
 								)}
 							</div>
 						)}
-					</Tabs.Content>
+					</TabPanel>
 				);
 			})}
-		</Tabs.Root>
+		</Tabs>
 	);
 };
 
