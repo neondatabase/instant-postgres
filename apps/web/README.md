@@ -1,1 +1,1 @@
-# Instant Postgres frontend
+# Instant Postgres Web

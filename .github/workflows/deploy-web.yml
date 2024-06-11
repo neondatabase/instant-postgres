@@ -7,9 +7,6 @@ on:
     paths:
         - 'apps/web/**'
 
-env:
-  VITE_API_URL: ${{ secrets.VITE_API_URL }}
-  
 jobs:
   deploy-production:
     runs-on: ubuntu-latest
@@ -25,6 +22,12 @@ jobs:
 
       - run: |
           echo "{\"VITE_API_URL\": \"$VITE_API_URL\"}" > secrets.json
+
+      - run: |
+          echo "{
+            \"VITE_API_URL\": \"${{ secrets.VITE_API_URL }}\",
+            \"VITE_CLOUDFLARE_TURNSTILE_SITE_KEY\": \"${{ secrets.VITE_CLOUDFLARE_TURNSTILE_SITE_KEY }}\",
+          }" > secrets.json
       
       - name: Upload secrets
         uses: cloudflare/wrangler-action@v3.6.1
