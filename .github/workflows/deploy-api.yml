@@ -30,8 +30,6 @@ jobs:
         run: bun install
 
       - run: bun run turbo db:migrate
-        env:
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
 
       - run: bun run build --filter=api
 
