@@ -89,7 +89,7 @@ export const DeployButton = () => {
 
 			<Turnstile
 				className="hidden"
-				siteKey="0x4AAAAAAAa4q5vJcjGaJqL7"
+				siteKey={CLOUDFLARE_TURNSTILE_SITE_KEY}
 				onSuccess={(token) => setToken(token)}
 			/>
 		</fetcher.Form>
