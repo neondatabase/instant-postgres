@@ -13,7 +13,6 @@ export const DeployButton = () => {
 	const isLoading = fetcher.state !== "idle";
 	const hasCreatedProject = fetcher?.data?.result?.hasCreatedProject ?? false;
 
-	console.log(CLOUDFLARE_TURNSTILE_SITE_KEY);
 	return (
 		<fetcher.Form
 			method="POST"
