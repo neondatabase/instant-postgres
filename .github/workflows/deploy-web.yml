@@ -19,12 +19,11 @@ jobs:
         run: bun install
 
       - run: bun run build --filter=web
-      
+
       - run: |
           echo "{
             \"VITE_API_URL\": \"${{ secrets.VITE_API_URL }}\",
-            \"VITE_CLOUDFLARE_TURNSTILE_SITE_KEY\": \"${{ secrets.VITE_CLOUDFLARE_TURNSTILE_SITE_KEY }}\",
-          }" > secrets.json
+            \"VITE_CLOUDFLARE_TURNSTILE_SITE_KEY\": \"${{ secrets.VITE_CLOUDFLARE_TURNSTILE_SITE_KEY }}\"}" > secrets.json
       
       - name: Upload secrets
         uses: cloudflare/wrangler-action@v3.6.1
