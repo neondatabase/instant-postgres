@@ -4,15 +4,16 @@ import { useState } from "react";
 import { cn } from "~/lib/cn";
 import type { clientAction } from "~/routes/actions.deploy";
 
-const CLOUDFLARE_TURNSTILE_SITE_KEY = import.meta.env
-	.VITE_CLOUDFLARE_TURNSTILE_SITE_KEY;
-
 export const DeployButton = () => {
+	const CLOUDFLARE_TURNSTILE_SITE_KEY = import.meta.env
+		.VITE_CLOUDFLARE_TURNSTILE_SITE_KEY;
 	const [token, setToken] = useState<null | string>(null);
+
 	const fetcher = useFetcher<typeof clientAction>({ key: "deploy" });
 	const isLoading = fetcher.state !== "idle";
 	const hasCreatedProject = fetcher?.data?.result?.hasCreatedProject ?? false;
 
+	console.log(CLOUDFLARE_TURNSTILE_SITE_KEY);
 	return (
 		<fetcher.Form
 			method="POST"

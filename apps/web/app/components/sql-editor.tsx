@@ -20,10 +20,6 @@ export const SqlEditor = () => {
 
 	const queryFetcher = useFetcher<typeof queryAction>({ key: "query" });
 	const isLoading = queryFetcher.state !== "idle";
-	const results = queryFetcher.data?.result;
-	console.log({
-		results,
-	});
 	const deployFetcher = useFetcher<typeof deployAction>({ key: "deploy" });
 	const hasCreatedProject =
 		deployFetcher?.data?.result?.hasCreatedProject ?? false;
