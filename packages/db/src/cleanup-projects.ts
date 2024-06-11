@@ -5,7 +5,7 @@ import { and, sql } from "drizzle-orm";
 import { db } from ".";
 
 const DATABASE_URL = process.env.DATABASE_URL;
-const NEON_API_KEY = process.env.NEON_API_KEY;
+const INSTANT_POSTGRES_API_KEY = process.env.INSTANT_POSTGRES_API_KEY;
 
 const fetchOldProjects = async (client: NeonDriver["client"]) => {
 	const fiveMinutesAgo = sql`now() - interval '5 minutes'`;
@@ -52,12 +52,14 @@ const markProjectsAsDeleted = async (client: NeonDriver["client"]) => {
 
 const main = async () => {
 	try {
-		if (!DATABASE_URL || !NEON_API_KEY) {
-			throw new Error("Missing DATABASE_URL or NEON_API_KEY env var");
+		if (!DATABASE_URL || !INSTANT_POSTGRES_API_KEY) {
+			throw new Error(
+				"Missing DATABASE_URL or INSTANT_POSTGRES_API_KEY env var",
+			);
 		}
 
 		const client = db(DATABASE_URL);
-		const neonApiClient = neon(NEON_API_KEY);
+		const neonApiClient = neon(INSTANT_POSTGRES_API_KEY);
 
 		const oldProjects = await fetchOldProjects(client);
 

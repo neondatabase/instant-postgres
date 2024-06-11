@@ -2,12 +2,12 @@ import type { schema } from "@instant-postgres/neon";
 
 export type Bindings = {
 	DATABASE_URL: string;
-	NEON_API_KEY: string;
 	COOKIE_SECRET: string;
 	APP_URL: string;
 	CLOUDFLARE_TURNSTILE_SECRET_KEY: string;
 	UPSTASH_REDIS_REST_URL: string;
 	UPSTASH_REDIS_REST_TOKEN: string;
+	INSTANT_POSTGRES_API_KEY: string;
 };
 
 export type SuccessResponse<ResultType> = {

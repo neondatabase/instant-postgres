@@ -10,7 +10,7 @@ on:
 env:
   DATABASE_URL: ${{ secrets.DATABASE_URL }}
   COOKIE_SECRET: ${{ secrets.COOKIE_SECRET }}
-  NEON_API_KEY: ${{ secrets.NEON_API_KEY }}
+  INSTANT_POSTGRES_API_KEY: ${{ secrets.INSTANT_POSTGRES_API_KEY }}
   APP_URL: ${{ secrets.APP_URL }}
   CLOUDFLARE_TURNSTILE_SECRET_KEY: ${{ secrets.CLOUDFLARE_TURNSTILE_SECRET_KEY }}
   UPSTASH_REDIS_REST_URL: ${{ secrets.UPSTASH_REDIS_REST_URL }}
@@ -39,7 +39,7 @@ jobs:
           echo "{
             \"DATABASE_URL\": \"${{ secrets.DATABASE_URL }}\",
             \"COOKIE_SECRET\": \"${{ secrets.COOKIE_SECRET }}\",
-            \"NEON_API_KEY\": \"${{ secrets.NEON_API_KEY }}\",
+            \"INSTANT_POSTGRES_API_KEY\": \"${{ secrets.INSTANT_POSTGRES_API_KEY }}\",
             \"APP_URL\": \"${{ secrets.APP_URL }}\",
             \"CLOUDFLARE_TURNSTILE_SECRET_KEY\": \"${{ secrets.CLOUDFLARE_TURNSTILE_SECRET_KEY }}\",
             \"UPSTASH_REDIS_REST_URL\": \"${{ secrets.UPSTASH_REDIS_REST_URL }}\",

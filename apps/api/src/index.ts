@@ -104,7 +104,7 @@ const route = app.post(
 			);
 		}
 
-		const neonApiClient = neon(c.env.NEON_API_KEY);
+		const neonApiClient = neon(c.env.INSTANT_POSTGRES_API_KEY);
 
 		const start = Date.now();
 
