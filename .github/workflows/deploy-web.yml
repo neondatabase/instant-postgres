@@ -19,10 +19,7 @@ jobs:
         run: bun install
 
       - run: bun run build --filter=web
-
-      - run: |
-          echo "{\"VITE_API_URL\": \"$VITE_API_URL\"}" > secrets.json
-
+      
       - run: |
           echo "{
             \"VITE_API_URL\": \"${{ secrets.VITE_API_URL }}\",
