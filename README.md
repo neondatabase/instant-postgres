@@ -20,7 +20,9 @@ Built using:
 - [Github Actions](https://github.com/actions) - CI + CRON
 
 
-## How it works
+## How the app works
+
+### API
 
 When you click on "Deploy Postgres", you send a POST request to a `/postgres` API endpoint that does the following:
 
@@ -30,13 +32,18 @@ Two middlewares run before the main handler:
 
 The endpoint then captures the request start time and retrieves the client's IP address from the request headers. 
 
-It checks for existing project data in a signed cookie, and if found, parses and returns this data in a success response. If no project data is found, it extracts the `cfTurnstileResponse` token from the request body and sends a POST request to the Cloudflare Turnstile API to verify the token. 
+It checks for existing project data in a signed cookie, and if found, parses and returns this data in a success response (This way we don't provision a database for every API request). If no project data is found, it extracts the `cfTurnstileResponse` token from the request body and sends a POST request to the Cloudflare Turnstile API to verify the token. 
 
 Upon successful verification, it initializes a Neon API client and determines the closest region based on the IP's latitude and longitude, sending a request to create a new project with specified settings such as region, quota, and PostgreSQL version. 
 
 Then the created project info is inserted into a database so that it can be deleted after 5 mins (This is done using the CRON job defined in `.github/workflows/cleanup-projects.yml`). If successful, it constructs a new project data object with connection details and provisioning time, sets this data in a signed cookie with a five-minute expiration. 
 
 Finally, it calculates the total response time and returns a success response with the project data and the calculated response time.
+
+
+### Querying the database
+
+When running queries using the inline SQL editor, you actually query the database directly from the browser. This is possible to the [Neon Serverless Driver](https://github.com/neondatabase/serverless), which allows you to establish a connection to your database over WebSockets.
 
 ## Local Development
 
