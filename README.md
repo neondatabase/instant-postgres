@@ -54,12 +54,13 @@ Both the API and the frontend require environment variables to be set in order t
 For the API, you can run the following command to copy the `.env.example` file to a `.env` file with the necessary environment variables.
 
 ```bash
+cp apps/api/.dev.vars.example apps/api/.dev.vars
 ```
 
 For the frontend, you can run the following command to copy the `.env.example` file to a `.env` file with the necessary environment variables.
 
 ```bash
-
+cp apps/web/.env.example apps/web/.env
 ```
 
 Finally, you can then run `bun dev` to start the development server for both the frontend and backend. The frontend will be running at[`http://localhost:3000`](http://localhost:3000) and the backend will be running at [`http://localhost:8787`](http://localhost:8787).
