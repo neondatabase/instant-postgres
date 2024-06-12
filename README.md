@@ -11,7 +11,7 @@ Built using:
 
 - [Remix](https://remix.run) + [Tailwindcss](https://tailwindcss.com) - frontend + styling
 - [Hono](https://hono.dev) - API + end-to-end type-safety with [Hono Client](https://hono.dev/guides/rpc#client)
-- [Upstash](upstash.com) - rate limiting
+- [Upstash](https://upstash.com) - rate limiting
 - [Cloudflare Pages](https://pages.dev) - deployment
 - [Cloudflare Turnstile](https://www.cloudflare.com/products/turnstile/) - bot protection
 - [DrizzleORM](https://drizzle.team) - ORM
