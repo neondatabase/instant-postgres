@@ -73,3 +73,7 @@ cp apps/web/.env.example apps/web/.env
 Finally, you can then run `bun dev` to start the development server for both the frontend and backend. The frontend will be running at[`http://localhost:3000`](http://localhost:3000) and the backend will be running at [`http://localhost:8787`](http://localhost:8787).
 
 
+## TODO
+
+- [ ] Add Preview Deployments using Cloudflare Pages + Neon
+- [ ] Add linting, formatting, and typechecking to existing Github Actions workflow
