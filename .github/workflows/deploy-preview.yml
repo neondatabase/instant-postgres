@@ -51,6 +51,7 @@ jobs:
 
       - name: Deploy API
         uses: AdrianGonz97/refined-cf-pages-action@v1
+        id: deploy-api
         with:
           githubToken: ${{ secrets.GH_TOKEN }}
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
@@ -63,14 +64,15 @@ jobs:
 
       - run: bun run build --filter=web
 
-      - name: Deploy Web
-        uses: AdrianGonz97/refined-cf-pages-action@v1
-        with:
-          githubToken: ${{ secrets.GH_TOKEN }}
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          projectName: instant-postgres
-          directory: ./build/client
-          workingDirectory: ./apps/web
-          deploymentName: ${{ steps.branch-name.outputs.current_branch }}
-          branch: ${{ steps.branch-name.outputs.current_branch }}
+      # - name: Deploy Web
+      #   id: deploy-web
+      #   uses: AdrianGonz97/refined-cf-pages-action@v1
+      #   with:
+      #     githubToken: ${{ secrets.GH_TOKEN }}
+      #     apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      #     accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      #     projectName: instant-postgres
+      #     directory: ./build/client
+      #     workingDirectory: ./apps/web
+      #     deploymentName: ${{ steps.branch-name.outputs.current_branch }}
+      #     branch: ${{ steps.branch-name.outputs.current_branch }}
