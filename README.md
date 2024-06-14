@@ -77,3 +77,4 @@ Finally, you can then run `bun dev` to start the development server for both the
 
 - [ ] Add Preview Deployments using Cloudflare Pages + Neon
 - [ ] Add linting, formatting, and typechecking to existing Github Actions workflow
+- [ ] 
