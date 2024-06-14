@@ -28,9 +28,6 @@ jobs:
         id: branch-name
         uses: tj-actions/branch-names@v8
 
-      - run: |
-          echo "VITE_API_URL=https://${{ steps.branch-name.outputs.current_branch }}.instant-postgres-api.pages.dev" >> "$GITHUB_ENV"
-          echo "APP_URL=https://${{ steps.branch-name.outputs.current_branch }}.instant-postgres.pages.dev" >> "$GITHUB_ENV"
 
       - id: create-branch
         uses: neondatabase/create-branch-action@v5
@@ -43,7 +40,9 @@ jobs:
 
       - run: |
           echo "DATABASE_URL=${{ steps.create-branch.outputs.db_url_with_pooler }}" >> "$GITHUB_ENV"
-
+          echo "VITE_API_URL=https://${{ steps.branch-name.outputs.current_branch }}.instant-postgres-api.pages.dev" >> "$GITHUB_ENV"
+          echo "APP_URL=https://${{ steps.branch-name.outputs.current_branch }}.instant-postgres.pages.dev" >> "$GITHUB_ENV"
+  
       - run: bun run turbo db:migrate
 
       - run: bun run build --filter=api
@@ -61,7 +60,7 @@ jobs:
           deploymentName: ${{ steps.branch-name.outputs.current_branch }}
           branch: ${{ steps.branch-name.outputs.current_branch }}
 
-      - run: bun run build --filter=web
+      # - run: bun run build --filter=web
 
       # - name: Deploy Web
       #   id: deploy-web
