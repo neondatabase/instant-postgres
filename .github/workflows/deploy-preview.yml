@@ -39,9 +39,9 @@ jobs:
           api_key: ${{ secrets.NEON_API_KEY }} # Generate an API key in your Neon account settings
 
       - run: |
-          echo "DATABASE_URL=${{ steps.create-branch.outputs.db_url_with_pooler }}" >> "$GITHUB_ENV"
-          echo "VITE_API_URL=https://${{ steps.branch-name.outputs.current_branch }}.instant-postgres-api.pages.dev" >> "$GITHUB_ENV"
-          echo "APP_URL=https://${{ steps.branch-name.outputs.current_branch }}.instant-postgres.pages.dev" >> "$GITHUB_ENV"
+          echo "DATABASE_URL=${{ steps.create-branch.outputs.db_url_with_pooler }}" >> $GITHUB_ENV
+          echo "VITE_API_URL=https://${{ steps.branch-name.outputs.current_branch }}.instant-postgres-api.pages.dev" >> $GITHUB_ENV
+          echo "APP_URL=https://${{ steps.branch-name.outputs.current_branch }}.instant-postgres.pages.dev" >> $GITHUB_ENV
   
       - run: bun run turbo db:migrate
 
