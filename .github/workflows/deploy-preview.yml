@@ -2,7 +2,6 @@ name: Preview Deployment
 on: [pull_request]
 
 env:
-  DATABASE_URL: ${{ secrets.DATABASE_URL }}
   COOKIE_SECRET: ${{ secrets.COOKIE_SECRET }}
   INSTANT_POSTGRES_API_KEY: ${{ secrets.INSTANT_POSTGRES_API_KEY }}
   CLOUDFLARE_TURNSTILE_SECRET_KEY: ${{ secrets.CLOUDFLARE_TURNSTILE_SECRET_KEY }}
