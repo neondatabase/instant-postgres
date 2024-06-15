@@ -7,10 +7,6 @@ on:
     paths:
         - 'apps/web/**'
 
-env:
-  VITE_API_URL: ${{ secrets.VITE_API_URL }}
-  VITE_CLOUDFLARE_TURNSTILE_SITE_KEY: ${{ secrets.VITE_CLOUDFLARE_TURNSTILE_SITE_KEY }}
-  
 jobs:
   deploy-production:
     runs-on: ubuntu-latest
@@ -23,6 +19,9 @@ jobs:
         run: bun install
 
       - run: bun run build --filter=web
+        env:
+          VITE_API_URL: ${{ secrets.VITE_API_URL }}
+          VITE_CLOUDFLARE_TURNSTILE_SITE_KEY: ${{ secrets.VITE_CLOUDFLARE_TURNSTILE_SITE_KEY }}
 
       - name: Deploy
         uses: AdrianGonz97/refined-cf-pages-action@v1
