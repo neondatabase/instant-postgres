@@ -37,15 +37,20 @@ jobs:
           # parent: dev # optional (defaults to your primary branch)
           branch_name: preview/${{ steps.branch-name.outputs.current_branch }}
           api_key: ${{ secrets.NEON_API_KEY }} # Generate an API key in your Neon account settings
-
-      - run: |
-          echo "DATABASE_URL=${{ steps.create-branch.outputs.db_url_with_pooler }}" >> $GITHUB_ENV
-          echo "VITE_API_URL=https://${{ steps.branch-name.outputs.current_branch }}.instant-postgres-api.pages.dev" >> $GITHUB_ENV
-          echo "APP_URL=https://${{ steps.branch-name.outputs.current_branch }}.instant-postgres.pages.dev" >> $GITHUB_ENV
   
       - run: bun run turbo db:migrate
+        env:
+          DATABASE_URL: ${{ steps.create-branch.outputs.db_url_with_pooler }}
 
       - run: bun run build --filter=api
+        env:
+          DATABASE_URL: ${{ steps.create-branch.outputs.db_url_with_pooler }}
+          COOKIE_SECRET: ${{ secrets.COOKIE_SECRET }}
+          INSTANT_POSTGRES_API_KEY: ${{ secrets.INSTANT_POSTGRES_API_KEY }}
+          APP_URL: https://${{ steps.branch-name.outputs.current_branch }}.instant-postgres.pages.dev
+          CLOUDFLARE_TURNSTILE_SECRET_KEY: ${{ secrets.CLOUDFLARE_TURNSTILE_SECRET_KEY }}
+          UPSTASH_REDIS_REST_URL: ${{ secrets.UPSTASH_REDIS_REST_URL }}
+          UPSTASH_REDIS_REST_TOKEN: ${{ secrets.UPSTASH_REDIS_REST_TOKEN }}
 
       - name: Deploy API
         uses: AdrianGonz97/refined-cf-pages-action@v1
@@ -60,17 +65,20 @@ jobs:
           deploymentName: ${{ steps.branch-name.outputs.current_branch }}
           branch: ${{ steps.branch-name.outputs.current_branch }}
 
-      # - run: bun run build --filter=web
+      - run: bun run build --filter=web
+        env:
+          VITE_API_URL: https://${{ steps.branch-name.outputs.current_branch }}.instant-postgres-api.pages.dev
+          VITE_CLOUDFLARE_TURNSTILE_SITE_KEY: ${{ secrets.VITE_CLOUDFLARE_TURNSTILE_SITE_KEY }}
 
-      # - name: Deploy Web
-      #   id: deploy-web
-      #   uses: AdrianGonz97/refined-cf-pages-action@v1
-      #   with:
-      #     githubToken: ${{ secrets.GH_TOKEN }}
-      #     apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-      #     accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-      #     projectName: instant-postgres
-      #     directory: ./build/client
-      #     workingDirectory: ./apps/web
-      #     deploymentName: ${{ steps.branch-name.outputs.current_branch }}
-      #     branch: ${{ steps.branch-name.outputs.current_branch }}
+      - name: Deploy Web
+        id: deploy-web
+        uses: AdrianGonz97/refined-cf-pages-action@v1
+        with:
+          githubToken: ${{ secrets.GH_TOKEN }}
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          projectName: instant-postgres
+          directory: ./build/client
+          workingDirectory: ./apps/web
+          deploymentName: ${{ steps.branch-name.outputs.current_branch }}
+          branch: ${{ steps.branch-name.outputs.current_branch }}
