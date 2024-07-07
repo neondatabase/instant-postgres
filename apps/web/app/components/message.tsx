@@ -5,11 +5,19 @@ export const Message = () => {
 	const fetcher = useFetcher<typeof clientAction>({ key: "deploy" });
 	const hasCreatedProject = fetcher?.data?.result?.hasCreatedProject ?? false;
 
+	const handleClick = () => {
+		if (window.zaraz) {
+			// @ts-ignore
+			window.zaraz.track("Button Clicked", { text: "Instant Postgres Signup" });
+		}
+	};
+
 	if (hasCreatedProject) {
 		return (
 			<p className="h-4 animate-in fade-in slide-in-from-top text-[#AFB1B6] text-sm">
 				This database will be deleted after 5 minutes.{" "}
 				<a
+					onClick={handleClick}
 					className="text-white underline hover:no-underline"
 					href="https://console.neon.tech/signup?ref=instant-postgres"
 				>
