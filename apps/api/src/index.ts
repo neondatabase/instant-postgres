@@ -114,7 +114,11 @@ const route = app.post(
 		const { data, error } = await neonApiClient.POST("/projects", {
 			body: {
 				project: {
-					region_id: "azure-eastus2",
+					region_id: findClosestRegion({
+						lat: Number(ipLatitude),
+						lon: Number(ipLongitude),
+					}) as keyof typeof regions,
+
 					settings: {
 						quota: {
 							logical_size_bytes: 250000000,
