@@ -26,6 +26,7 @@ app.use("*", async (c, next) => {
 		origin: [
 			c.env.APP_URL.replace(/\/$/, ""),
 			"https://neon.tech",
+			"http://localhost:3000",
 			"https://instant-postgres.mahmoudw.com",
 			"https://instant-postgres.pages.dev",
 		],
